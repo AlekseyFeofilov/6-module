@@ -1,0 +1,59 @@
+body 
+{
+background-image: url("https://coolbackgrounds.io/images/backgrounds/index/sea-edge-79ab30e2.png");
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;
+text-align: center;
+vertical-align: middle;
+}
+
+table
+{
+border-collapse: separate; 
+width: 100%;
+border-spacing: 0px 30px;
+}
+
+#demo {
+text-align: center;
+width: 1000px;
+height: 580px;
+position: relative;
+top: 30px;
+margin: auto;
+border: 1px solid rgba(0,0,0,0.31);
+background: #FFFFFF;
+box-shadow: 3px 3px 8px 12px rgba(34, 60, 80, 0.15);
+border-radius: 3px;
+display: inline-block;
+}
+
+#btn 
+{
+transition: 1.5s;
+opacity: 0.85;
+width: 180px;
+height: 170px;
+display:inline-block;
+margin: 10px 10px 10px 10px;
+border: 1px solid rgba(0,0,0,0.31);
+background: #FFF15F;
+box-shadow: 12px 12px 12px 12px rgba(34, 60, 80, 0.15);
+border-radius: 3px;
+}
+
+#btn:hover 
+{
+transition: 1.5s;
+opacity: 1;
+background: #ffd700;
+box-shadow: 3px 3px 8px 12px rgba(34, 60, 80, 0.35);
+}
+
+img.btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:80px; 
+}
