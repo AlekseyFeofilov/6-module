@@ -12,10 +12,10 @@ table
 {
 border-collapse: separate; 
 width: 100%;
-border-spacing: 0px 30px;
+border-spacing: 0 30px;
 }
 
-#demo {
+#preview {
 text-align: center;
 width: 1000px;
 height: 580px;
@@ -29,7 +29,7 @@ border-radius: 3px;
 display: inline-block;
 }
 
-#btn 
+.buttonCell
 {
 transition: 1.5s;
 opacity: 0.85;
@@ -43,7 +43,7 @@ box-shadow: 12px 12px 12px 12px rgba(34, 60, 80, 0.15);
 border-radius: 3px;
 }
 
-#btn:hover 
+.buttonCell:hover
 {
 transition: 1.5s;
 opacity: 1;
@@ -51,7 +51,7 @@ background: #ffd700;
 box-shadow: 3px 3px 8px 12px rgba(34, 60, 80, 0.35);
 }
 
-img.btn {
+.button {
     display: block;
     margin-left: auto;
     margin-right: auto;
