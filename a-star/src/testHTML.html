@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Algorithm A-star</title>
+</head>
+<body>
+<h1>Algorithm A-star</h1>
+<div>
+    <span>
+        <input id="plusButtonColumns" type="button" value="+" title="Увеличить размер матрицы">
+        <input id="minusButtonColumns" type="button" value="-" title="Уменьшить размер матрицы">
+    </span>
+</div>
+<div>
+    <table id="tab">
+        <tr><td><input type="button" value="" class="cell"></td><td><input type="button" value="" class="cell"></td></tr>
+        <tr><td><input type="button" value="" class="cell"></td><td><input type="button" value="" class="cell"></td></tr>
+    </table>
+    <span>
+        <input id="sizeInput" type="text" placeholder="Введите размер поля">
+        <input id="sizeSubmit" type="button" value="OK">
+        <input id="generateMaze" type="button" class="editButton" value="Сгенерировать лабиринт">
+        <input type="button" class="editButton" id="reloadButton" value="Очистить всё">
+        <input id="walls" class="editButton" type="button" value="Установить стены">
+        <input id="start" type="button" class="editButton" value="Выбрать старт">
+        <input id="finish" type="button" class="editButton" value="Выбрать финиш">
+        <input id="free" type="button" class="editButton" value="Установить свободные клетки">
+        <input id="startAlgorithm" type="button" class="editButton" value="Start">
+        <a href="#" id="colorsMeaning">Что означают цвета в визуализации?</a>
+        <script src="js/paintButtons.js"></script>
+        <script src="js/resizeMatrix.js"></script>
+        <script src="js/Algorithm.js"></script>
+        <script>
+            colorsMeaning.onclick = function() {
+                alert("\nЧёрный - клетки, анализируемые на текущей итерации\n\nФиолетовый - клетки, рассматриваемые в качестве " +
+                    "потенциального кратчайшего маршрута\n\nРозовый - клетки, входящие в кратчайший марштур");
+            }
+        </script>
+    </span>
+</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+body {
+    background-color: beige;
+}
+
+h1 {
+    position: center;
+    font-family: "brad";
+    font-weight: unset;
+    color: grey;
+    text-align: center;
+    font-size: 60px;
+}
+#tab {
+    top: 210px;
+    margin-left: 370px;
+    position: absolute;
+    border-collapse: collapse;
+}
+td {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+#plusButtonColumns {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    border-radius: 30px;
+    border-color: grey;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-left: 377.5px;
+    top: 165px
+}
+#minusButtonColumns {
+    position: absolute;
+    width: 30px;
+    font-weight: bold;
+    height: 30px;
+    border-radius: 30px;
+    border-color: grey;
+    text-align: center;
+    margin-left: 420.5px;
+    top: 165px
+}
+.cell {
+    border-color: grey;
+    width: 45px;
+    height: 40px;
+    text-align: center;
+    background-color: white;
+    border-radius: 2px;
+}
+#sizeInput {
+    top: 195px;
+    margin-left: 30px;
+    position: absolute;
+    text-align: center;
+    font-family: "Comic Sans MS";
+    font-size: 17px;
+    width: 180px;
+    height: 30px;
+    border-radius: 10px;
+}
+#sizeInput:hover {
+    cursor: unset;
+}
+#sizeSubmit {
+    position: absolute;
+    text-align: center;
+    border-radius: 10px;
+    font-family: "Comic Sans MS";
+    font-size: 18px;
+    height: 40px;
+    background-color: #a3ff96;
+    width: 60px;
+    margin-top: 20.1px;
+    top: 172.5px;
+    bottom: 10px;
+    margin-left: 238px;
+}
+
+.cell:hover {
+    cursor: unset;
+}
+.editButton {
+    position: absolute;
+    text-align: center;
+    border-radius: 10px;
+    font-family: "Comic Sans MS";
+    border-color: grey;
+    font-size: 18px;
+    width: 268px;
+    height: 30px;
+    margin-left: 30px;
+    background-color: white;
+    top: 10px
+}
+#reloadButton {
+    top: 425px;
+    background-color: #ffbcba;
+}
+#walls {
+    top: 245px;
+    background-color: #c8cdc8;
+}
+#free {
+    background-color: white;
+    top: 290px;
+    font-size: 17px;
+}
+#start {
+    top: 335px;
+    background-color: #ffd7f9;
+}
+#finish {
+    top: 380px;
+    background-color: #bccdff;
+}
+#startAlgorithm {
+    top: 500px;
+    height: 120px;
+    width: 120px;
+    border-radius: 100px;
+    border-color: black;
+    font-size: 30px;
+    margin-left: 104px;
+    background-color: #efefef;
+}
+#generateMaze {
+    background-color: #efefef;
+    top: 164.5px;
+    margin-left: 470px;
+}
+#colorsMeaning {;
+    margin-left: 21px;
+    font-family: "Comic Sans MS";
+}
