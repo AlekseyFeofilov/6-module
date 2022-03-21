@@ -5,6 +5,8 @@ class Point {
     }
 }
 
+let diagonalHeuristic = false;
+
 // Функция, создающая матрицу размером numberOfRows*numberOfRows на основе начальной матрицы
 function generateNewMatrix(adjacencyMatrix, matrix, numberOfRows, numberOfColumns) {
     for (let i = 0; i < numberOfRows * numberOfColumns; i++) {
@@ -26,23 +28,20 @@ function generateNewMatrix(adjacencyMatrix, matrix, numberOfRows, numberOfColumn
             if(0 <= j - 1 && adjacencyMatrix[i][j - 1]) {
                 matrix[i * numberOfColumns + j][i * numberOfColumns + j - 1] = 1;
             }
-            // Следующие строки используются для модификации алгоритма A* (Кроме как в соседние клетки,
-            // можно ходить ещё и по диагонали)
-
-            /*
-            if(i + 1 < numberOfRows && j + 1 < numberOfColumns && adjacencyMatrix[i + 1][j + 1]) {
-                matrix[i * numberOfColumns + j][(i + 1) * numberOfColumns + j + 1] = 1;
+            if(diagonalHeuristic) {
+                if(i + 1 < numberOfRows && j + 1 < numberOfColumns && adjacencyMatrix[i + 1][j + 1]) {
+                    matrix[i * numberOfColumns + j][(i + 1) * numberOfColumns + j + 1] = 1;
+                }
+                if(i + 1 < numberOfRows && 0 <= j - 1 && adjacencyMatrix[i + 1][j - 1]) {
+                    matrix[i * numberOfColumns + j][(i + 1) * numberOfColumns + j - 1] = 1;
+                }
+                if(0 <= i - 1 && j + 1 < numberOfColumns && adjacencyMatrix[i - 1][j + 1]) {
+                    matrix[i * numberOfColumns + j][(i - 1) * numberOfColumns + j + 1] = 1;
+                }
+                if(0 <= i - 1 && 0 <= j - 1 && adjacencyMatrix[i - 1][j - 1]) {
+                    matrix[i * numberOfColumns + j][(i - 1) * numberOfColumns + j - 1] = 1;
+                }
             }
-            if(i + 1 < numberOfRows && 0 <= j - 1 && adjacencyMatrix[i + 1][j - 1]) {
-                matrix[i * numberOfColumns + j][(i + 1) * numberOfColumns + j - 1] = 1;
-            }
-            if(0 <= i - 1 && j + 1 < numberOfColumns && adjacencyMatrix[i - 1][j + 1]) {
-                matrix[i * numberOfColumns + j][(i - 1) * numberOfColumns + j + 1] = 1;
-            }
-            if(0 <= i - 1 && 0 <= j - 1 && adjacencyMatrix[i - 1][j - 1]) {
-                matrix[i * numberOfColumns + j][(i - 1) * numberOfColumns + j - 1] = 1;
-            }
-             */
         }
     }
 }

@@ -119,7 +119,7 @@ td {
     background-color: #bccdff;
 }
 #startAlgorithm {
-    top: 500px;
+    top: 570px;
     height: 120px;
     width: 120px;
     border-radius: 100px;
@@ -136,4 +136,26 @@ td {
 #colorsMeaning {;
     margin-left: 21px;
     font-family: "Comic Sans MS";
+}
+#direct {
+    top: 505px;
+    position: absolute;
+    text-align: center;
+    width: 134px;
+    font-size: 15px;
+    margin-left: 28px;
+}
+#diagonal {
+    font-size: 15px;
+    width: 134px;
+    position: absolute;
+    text-align: center;
+    margin-left: 166px;
+    top: 505px;
+}
+#heuristic {
+    position: absolute;
+    top: 475px;
+    font-family: "Comic Sans MS";
+    margin-left: 30px;
 }

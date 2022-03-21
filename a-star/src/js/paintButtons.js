@@ -62,3 +62,16 @@ function colorFree() {
         cells[i].setAttribute("onclick", "this.style.backgroundColor = 'white'");
     }
 }
+
+let buttonDirect = document.getElementById("direct");
+let buttonDiagonal = document.getElementById("diagonal");
+direct.onclick = function() {
+    diagonalHeuristic = false;
+    buttonDiagonal.style.backgroundColor = "white";
+    buttonDirect.style.backgroundColor = "#97ffed";
+}
+diagonal.onclick = function() {
+    diagonalHeuristic = true;
+    buttonDirect.style.backgroundColor = "white";
+    buttonDiagonal.style.backgroundColor = "#97ffed";
+}

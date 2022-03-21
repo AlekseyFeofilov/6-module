@@ -22,8 +22,8 @@
         <tr><td><input type="button" value="" class="cell"></td><td><input type="button" value="" class="cell"></td></tr>
     </table>
     <span>
-        <input id="sizeInput" type="text" placeholder="Введите размер поля">
         <input id="sizeSubmit" type="button" value="OK">
+        <label for="sizeInput"></label><input id="sizeInput" type="text" placeholder="Введите размер поля">
         <input id="generateMaze" type="button" class="editButton" value="Сгенерировать лабиринт">
         <input type="button" class="editButton" id="reloadButton" value="Очистить всё">
         <input id="walls" class="editButton" type="button" value="Установить стены">
@@ -31,6 +31,11 @@
         <input id="finish" type="button" class="editButton" value="Выбрать финиш">
         <input id="free" type="button" class="editButton" value="Установить свободные клетки">
         <input id="startAlgorithm" type="button" class="editButton" value="Start">
+        <input id="direct" type="button" value="Прямая" class="editButton">
+        <input id="diagonal" type="button" value="Диагональная" class="editButton">
+        <span id="heuristic">
+            Выбор эвристики:
+        </span>
         <a href="#" id="colorsMeaning">Что означают цвета в визуализации?</a>
         <script src="js/paintButtons.js"></script>
         <script src="js/resizeMatrix.js"></script>
