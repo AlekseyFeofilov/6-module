@@ -12,14 +12,20 @@
 <h1>Algorithm A-star</h1>
 <div>
     <span>
-        <input id="plusButtonColumns" type="button" value="+" title="Увеличить размер матрицы">
-        <input id="minusButtonColumns" type="button" value="-" title="Уменьшить размер матрицы">
+        <input id="plusSizeButton" type="button" value="+" title="Увеличить размер матрицы">
+        <input id="minusSizeButton" type="button" value="-" title="Уменьшить размер матрицы">
     </span>
 </div>
 <div>
     <table id="tab">
-        <tr><td><input type="button" value="" class="cell"></td><td><input type="button" value="" class="cell"></td></tr>
-        <tr><td><input type="button" value="" class="cell"></td><td><input type="button" value="" class="cell"></td></tr>
+        <tr>
+            <td><input type="button" value="" class="cell"></td>
+            <td><input type="button" value="" class="cell"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="" class="cell"></td>
+            <td><input type="button" value="" class="cell"></td>
+        </tr>
     </table>
     <span>
         <input id="sizeSubmit" type="button" value="OK">
@@ -41,7 +47,7 @@
         <script src="js/resizeMatrix.js"></script>
         <script src="js/Algorithm.js"></script>
         <script>
-            colorsMeaning.onclick = function() {
+            colorsMeaning.onclick = function () {
                 alert("\nЧёрный - клетки, анализируемые на текущей итерации\n\nФиолетовый - клетки, рассматриваемые в качестве " +
                     "потенциального кратчайшего маршрута\n\nРозовый - клетки, входящие в кратчайший марштур");
             }

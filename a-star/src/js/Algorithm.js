@@ -1,11 +1,9 @@
-class Point {
+class Cell {
     constructor(x, y) {
         this.firstValue = x;
         this.secondValue = y;
     }
 }
-
-let diagonalHeuristic = false;
 
 // Функция, создающая матрицу размером numberOfRows*numberOfRows на основе начальной матрицы
 function generateNewMatrix(adjacencyMatrix, matrix, numberOfRows, numberOfColumns) {
@@ -120,11 +118,6 @@ function isInPath(element, path) {
 
 function printPath(path, allCells, allVisitedCells, potentialCells) {
     let current = 0;
-    /*
-    for (let i = 0; i < allVisitedCells.length; i++) {
-        allCells[allVisitedCells[i]].style.backgroundColor = "rgb(255,205,249)";
-    }
-    */
     function go() {
         for (let i = 0; i < allCells.length; i++) {
             if(allCells[i].style.backgroundColor == "black") {
@@ -134,18 +127,6 @@ function printPath(path, allCells, allVisitedCells, potentialCells) {
         for(let i = 0; i < potentialCells[current].length; i++) {
             allCells[potentialCells[current][i]].style.backgroundColor = "black";
         }
-        //allCells[allVisitedCells[current]].style.backgroundColor = "rgb(0,0,0)";
-        /*
-        if(path[current] != allVisitedCells[current]) {
-            let newCurrent = current;
-            while (allVisitedCells[newCurrent] != path[current]) {
-                allCells[allVisitedCells[newCurrent]].style.backgroundColor = "#52FA37FF";
-                newCurrent++;
-            }
-        }
-        allCells[path[current]].style.backgroundColor = "rgb(255, 100, 238)";
-
-         */
         if(current >= 1) {
             if(isInPath(allVisitedCells[current - 1], path)) {
                 allCells[allVisitedCells[current - 1]].style.backgroundColor = "rgb(255, 100, 238)";
@@ -328,7 +309,7 @@ startAlgorithm.onclick = function() {
                 startFound = true;
                 let startX = i % numberOfColumns;
                 let startY = Math.floor(i / numberOfColumns);
-                startPoint = new Point(startX, startY);
+                startPoint = new Cell(startX, startY);
                 adjacencyMatrix[Math.floor(i / numberOfColumns)][i % numberOfColumns] = 1;
             }
         }
@@ -343,7 +324,7 @@ startAlgorithm.onclick = function() {
                 adjacencyMatrix[Math.floor(i / numberOfColumns)][i % numberOfColumns] = 1;
                 let finishX = i % numberOfColumns;
                 let finishY = Math.floor(i / numberOfColumns);
-                endPoint = new Point(finishX, finishY);
+                endPoint = new Cell(finishX, finishY);
             }
         }
         else if (allCells[i].style.backgroundColor == "" || allCells[i].style.backgroundColor == "white") {
@@ -395,7 +376,7 @@ startAlgorithm.onclick = function() {
             if (!isNeighbourInOpen(unclosedNeighbours[i], openedPoints) || (temp_G < realCost[unclosedNeighbours[i]])) {
                 previousPoint[unclosedNeighbours[i]] = current;
                 realCost[unclosedNeighbours[i]] = temp_G;
-                let currentNeighbour = new Point(unclosedNeighbours[i] % numberOfColumns, Math.floor(unclosedNeighbours[i] / numberOfColumns))
+                let currentNeighbour = new Cell(unclosedNeighbours[i] % numberOfColumns, Math.floor(unclosedNeighbours[i] / numberOfColumns))
                 heuristicCost[unclosedNeighbours[i]] = realCost[unclosedNeighbours[i]] + heuristicFunction(currentNeighbour, endPoint);
             }
             if (!isNeighbourInOpen(unclosedNeighbours[i], openedPoints)) {

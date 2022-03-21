@@ -3,7 +3,8 @@ let table = document.getElementById("tab");
 let counterColumns = 2;
 let counterRows = 2;
 
-plusButtonColumns.onclick = function() {
+// Изменение размера таблицы на 1
+plusSizeButton.onclick = function() {
     counterRows++;
     if(counterRows >= 132) {
         alert("Слишком большой лабиринт, введите данные поменьше");
@@ -12,7 +13,8 @@ plusButtonColumns.onclick = function() {
     let newRow = table.insertRow(-1);
     let columnsNumber = table.tBodies[0].rows[0].cells.length;
     for (let i = 0; i < columnsNumber; i++) {
-        table.tBodies[0].rows[counterRows - 1].insertCell(i);
+        let newCell = newRow.insertCell(i);
+        console.log(newCell.width);
     }
     let inputTags = new Array(columnsNumber);
     for(let i = 0; i < columnsNumber; i++) {
@@ -26,7 +28,7 @@ plusButtonColumns.onclick = function() {
     counterColumns++;
     let rows = table.tBodies[0].rows;
     for (let i = 0, l = rows.length; i < l; i++) {
-        table.rows[i].insertCell(-1);
+        let newCell = table.rows[i].insertCell(-1);
     }
     inputTags = new Array(rows.length);
     for(let i = 0; i < rows.length; i++) {
@@ -37,9 +39,16 @@ plusButtonColumns.onclick = function() {
         table.firstElementChild.children[i].children[table.firstElementChild.children[i].children.length - 1].appendChild(inputTags[i]);
     }
     inputTags.length = 0;
+    let cells = document.getElementsByClassName("cell");
+    for(let i = 0; i < cells.length; i++) {
+        if(!cells[i].hasAttribute("onclick")) {
+            cells[i].setAttribute("onclick", "colorCell()");
+        }
+    }
 }
 
-minusButtonColumns.onclick = function() {
+// Изменение размера таблицы на 1
+minusSizeButton.onclick = function() {
     if(counterColumns >= 2) {
         counterColumns--;
         let rows = table.tBodies[0].rows;
@@ -52,8 +61,15 @@ minusButtonColumns.onclick = function() {
         counterRows--;
         table.firstElementChild.children[table.firstElementChild.children.length - 1].remove();
     }
+    let cells = document.getElementsByClassName("cell");
+    for(let i = 0; i < cells.length; i++) {
+        if(!cells[i].hasAttribute("onclick")) {
+            cells[i].setAttribute("onclick", "colorCell()");
+        }
+    }
 }
 
+// Изменение размера таблицы на произвольное число
 sizeSubmit.onclick = function() {
     let numberOfColumns = sizeInput.value;
     if(numberOfColumns > 131) {
@@ -66,7 +82,8 @@ sizeSubmit.onclick = function() {
         if (result != numberOfColumns) {
             if (numberOfColumns.indexOf(" ") >= 0) {
                 alert("Введите число без пробелов");
-            } else {
+            }
+            else {
                 alert("Количество столбцов должно быть целым натуральным числом");
             }
         }
@@ -87,12 +104,13 @@ sizeSubmit.onclick = function() {
                     counterColumns++;
                     let rows = table.tBodies[0].rows;
                     for (let i = 0, l = rows.length; i < l; i++) {
-                        table.rows[i].insertCell(-1);
+                        let newCell = table.rows[i].insertCell(-1);
                         table.firstElementChild.children[i].children[table.firstElementChild.children[i].children.length - 1].appendChild(inputTags[j * rows.length + i]);
                     }
                 }
                 inputTags.length = 0;
             }
+            // удалять столбцы
             else if(numberOfColumns < 0) {
                 numberOfColumns = Math.abs(numberOfColumns);
                 for (let j = 0; j < numberOfColumns; j++) {
@@ -119,9 +137,9 @@ sizeSubmit.onclick = function() {
                 }
                 for(let j = 0; j < numberOfRows; j++) {
                     counterRows++;
-                    let newRow = table.insertRow(-1);
+                    table.insertRow(-1);
                     for (let i = 0; i < columnsNumber; i++) {
-                        table.tBodies[0].rows[counterRows - 1].insertCell(i);
+                        let newCell = table.tBodies[0].rows[counterRows - 1].insertCell(i);
                     }
                     for (let i = 0; i < columnsNumber; i++) {
                         table.firstElementChild.children[table.firstElementChild.children.length - 1].children[i].appendChild(inputTags[j * columnsNumber + i]);
@@ -140,9 +158,14 @@ sizeSubmit.onclick = function() {
             }
         }
     }
-    //rowsResize();
+    let cells = document.getElementsByClassName("cell");
+    for(let i = 0; i < cells.length; i++) {
+        if(!cells[i].hasAttribute("onclick")) {
+            cells[i].setAttribute("onclick", "colorCell()");
+        }
+    }
 }
 
 reloadButton.onclick = function() {
-    location.reload ();
+    location.reload();
 }
