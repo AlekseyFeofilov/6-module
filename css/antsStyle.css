@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: rgb(17, 17, 19);
+}
+
+.button-start{
+    width: auto;
+    height: auto;
+}
