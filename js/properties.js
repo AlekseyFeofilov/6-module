@@ -8,7 +8,7 @@ const properties = {
     bodySize: 300,
     antSize: 1,
     pheromoneSize: 2,
-    gridSize: 500,
+    gridSize: 300,
 
     foodSize: 10,
     anthillSize: 10,
@@ -16,14 +16,17 @@ const properties = {
     antCount: 100,
     pheromoneCount: 100,
 
-    antSpeed: 1,
+    antGreed: 1,
+    antConformism: 2,
+
+    antSpeed: 2,
     pheromoneFrequency: 1,
 
     antConfidence: 0.1,
-    antConservatism: Math.PI / 4,
+    antConservatism: Math.PI / 12,
 
     pheromoneLifeCycleStep: 5,
-    pheromoneLifeCycle: 50,
+    pheromoneLifeCycle: 100,
     pheromoneLifeCycleCoefficient: 60,
 
     pheromoneStrength: 40,
