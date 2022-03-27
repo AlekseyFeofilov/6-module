@@ -1,0 +1,52 @@
+* {
+    background-color: beige;
+}
+
+h1 {
+    text-align: center;
+    font-weight: unset;
+    font-size: 40px;
+}
+
+textarea {
+    border-radius: 5px;
+    background-color: #efefef;
+    resize: none;
+    font-family: "Comic Sans MS", serif;
+    position: center;
+    display: block;
+    margin-left: auto;
+    width: 500px;
+    height: 220px;
+    margin-right: auto;
+}
+textarea:hover {
+    cursor: unset;
+}
+
+body {
+    text-align: center;
+}
+
+#getLearningInformation {
+    font-family: "Comic Sans MS", serif;
+    font-size: 19px;
+    width: 250px;
+    height: 30px;
+    background-color: #cccccc;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+#getUserInformation {
+    font-family: "Comic Sans MS", serif;
+    font-size: 19px;
+    width: 250px;
+    height: 30px;
+    background-color: #cccccc;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+}
