@@ -1,3 +1,0 @@
-function circle(radius, angle) {
-
-}

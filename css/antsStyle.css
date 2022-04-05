@@ -4,7 +4,23 @@ body {
     background: rgb(17, 17, 19);
 }
 
-.button-start{
+.button-start {
     width: auto;
     height: auto;
+}
+
+.frame {
+    position: absolute;
+    border: gray solid 5px;
+    width: 290px;
+    height: 290px;
+}
+
+.circle {
+    margin: 0;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    background: red;
+    position: absolute;
 }
