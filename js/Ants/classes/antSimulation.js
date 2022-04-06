@@ -33,7 +33,7 @@ class AntSimulation {
     canvasInit() {
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d');
-        document.querySelector('body').appendChild(this.canvas);
+        document.querySelector('.frame').appendChild(this.canvas);
 
         this.width = this.canvas.width = properties.bodySize;
         this.height = this.canvas.height = properties.bodySize;
@@ -48,7 +48,7 @@ class AntSimulation {
     }
 
     getFieldInformation(positionX, positionY) {
-        return this.field[Math.round(positionX / 3)][Math.round(positionY / 3)];
+        return this.field[Math.round(positionX / 6)][Math.round(positionY / 6)];
     }
 
 //todo: add html object instead of draw it

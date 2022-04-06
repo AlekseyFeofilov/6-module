@@ -1,19 +1,133 @@
 body {
+    background-image: url("https://img3.badfon.ru/wallpaper/big/6/f3/muravi-priroda-makro.jpg");
+    background-size: cover;
     margin: 0;
     overflow: hidden;
-    background: rgb(17, 17, 19);
+}
+
+.options {
+    margin-left: 40px;
+    width: 700px;
+    text-align: justify;
+}
+
+.optionWidth {
+    width: 100%;
+    height: 0;
+    visibility: hidden;
+}
+
+.options > li {
+    display: inline-block;
+}
+
+button {
+    display: inline-block;
+    height: 60px;
+    width: 200px;
+
+    line-height: 50px;
+    font-size: 20px;
+    text-align: center;
+
+    text-shadow: 0 1px rgba(255, 255, 255, .2), 0 -1px rgba(0, 0, 0, .8);
+    border: none;
+    border-radius: 100px;
+    outline: none;
+
+    box-shadow: inset rgba(0, 0, 0, .6) 0 -2px 5px, inset rgba(252, 255, 255, .7) 0 2px 5px, rgba(0, 0, 0, .8) 0 2px 5px -1px;
+    margin-top: 10px;
+    user-select: none;
+}
+
+.option > button, .button-clear {
+    background: rgb(140, 71, 15) radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, .2), rgba(0, 0, 0, 0));
+    color: rgb(93, 47, 10);
+}
+
+.button-stop, .button-start {
+    position: fixed;
+    width: 250px;
+    background: rgb(28, 107, 114) radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, .2), rgba(0, 0, 0, 0));
+    color: rgb(0, 79, 86);
+}
+
+.button-stop {
+    right: 35px;
 }
 
 .button-start {
-    width: auto;
-    height: auto;
+    right: 330px;
+}
+
+.button-clear {
+    margin-left: 580px;
+}
+
+.properties {
+    margin-left: 50px;
+    margin-top: 60px;
+}
+
+.propertiesExplanation {
+    position: relative;
+    margin-left: 50px;
+}
+
+.propertiesExplanation p {
+    height: 22px;
+    margin-bottom: 70px;
+    color: rgb(90, 169, 169);
+    user-select: none;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Times New Roman", serif;
+}
+
+.propertiesRange {
+    width: 750px;
+    position: absolute;
+    margin-top: 25px;
+    color: rgb(28, 107, 114);
+}
+
+.slider {
+    -webkit-appearance: none;
+    border-radius: 15px;
+    height: 20px;
+    width: 100%;
+    background: rgb(140, 71, 15);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin-bottom: 70px;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border-radius: 100%;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    background: rgb(41, 156, 166);
+    cursor: pointer;
+}
+
+.slider:hover {
+    opacity: 1;
 }
 
 .frame {
-    position: absolute;
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+
+    background-color: rgba(30, 30, 30, 1);
     border: gray solid 5px;
-    width: 290px;
-    height: 290px;
+
+    width: 590px;
+    height: 590px;
 }
 
 .circle {

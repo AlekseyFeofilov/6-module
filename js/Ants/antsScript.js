@@ -22,6 +22,7 @@ function loop(){
 
 document.querySelector(".button-start").addEventListener(CLICK, () => {
     stop = false;
+    document.querySelector('.frame').style.border = "none";
     loop();
 });
 

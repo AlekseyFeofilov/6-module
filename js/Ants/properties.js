@@ -1,16 +1,16 @@
-import {redColor, blackColor, enumExportNumber, greyColor} from "./extension/enum.js";
+import {redColor, blackColor, enumExportNumber, greyColor, backgroundColor} from "./extension/enum.js";
 
 const properties = {
-    backgroundColor: blackColor,
+    backgroundColor: backgroundColor,
     backgroundBorderColor: greyColor,
     antColor: redColor,
 
     //sizes
-    bodySize: 300,
+    bodySize: 600,
     antSize: 1,
     pheromoneSize: 2,
     anthillSize: 10,
-    gridSize: 100,
+    gridSize: 200,
     foodSize: 10,
 
     //todo: replace count to number

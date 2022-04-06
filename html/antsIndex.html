@@ -7,9 +7,40 @@
 </head>
 <body>
     <div class="menu">
-        <button type="button" class="button-start">Start</button>
-        <button type="button" class="button-stop">Stop</button>
+        <div class="start-stop">
+            <button type="button" class="button-start">Start</button>
+            <button type="button" class="button-stop">Stop</button>
+        </div>
+        <ul class="options">
+            <li class="option"><button type="button" class="button-set-anthill">anthill</button></li>
+            <li class="option"><button type="button" class="button-set-food">food</button></li>
+            <li class="option"><button type="button" class="button-set-border">border</button></li>
+            <li class="optionWidth"></li>
+        </ul>
+        <div class="properties">
+            <div class="propertiesRange">
+                <label for="greed"></label><input type="range" min="1" max="100" value="1" step="1" class="slider" id="greed">
+                <label for="conformism"></label><input type="range" min="1" max="100" value="3" step="1" class="slider" id="conformism">
+                <label for="patience"></label><input type="range" min="1" max="100000" value="100000" step="1000" class="slider" id="patience">
+                <label for="nutritionalValue"></label><input type="range" min="1" max="100" value="50" step="1" class="slider" id="nutritionalValue">
+                <label for="pheromoneStrength"></label><input type="range" min="1" max="100" value="50" step="1" class="slider" id="pheromoneStrength">
+            </div>
+            <div class="propertiesExplanation">
+                <p>Greed coefficient</p>
+                <p>Conformism coefficient</p>
+                <p>Patience coefficient</p>
+                <p>Nutritional value</p>
+                <p>Pheromone strength</p>
+            </div>
+        </div>
+        <div class="clear">
+            <button type="button" class="button-clear">Clear</button>
+        </div>
     </div>
-    <script type="module" src="../js/antsScript.js"></script>
+    <div class="frame">
+
+    </div>
+    <script type="module" src="../js/Ants/UI.js"></script>
+    <script type="module" src="../js/Ants/antsScript.js"></script>
 </body>
 </html>
