@@ -1,5 +1,5 @@
 import {properties} from "../properties.js";
-import {FOOD} from "../constants.js";
+import {FOOD} from "../strings.js";
 
 export {Pheromone}
 

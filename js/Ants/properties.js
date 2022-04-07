@@ -7,6 +7,7 @@ const properties = {
 
     //sizes
     bodySize: 600,
+    borderSize: 5,
     antSize: 1,
     pheromoneSize: 2,
     anthillSize: 10,

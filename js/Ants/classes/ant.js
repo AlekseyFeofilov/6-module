@@ -1,5 +1,5 @@
 import {random} from "../extension/random.js";
-import {ANTHILL, FOOD, POSITION_X, POSITION_Y, RADIUS} from "../constants.js";
+import {ANTHILL, FOOD, POSITION_X, POSITION_Y, RADIUS} from "../strings.js";
 import {properties} from "../properties.js";
 import {isGrey} from "../extension/color.js";
 import {Track} from "./track.js";

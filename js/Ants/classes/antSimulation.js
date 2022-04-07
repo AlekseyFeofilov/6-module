@@ -1,12 +1,14 @@
 import {properties} from "../properties.js";
-import {BORDER_WIDTH, POSITION_X, POSITION_Y, RADIUS} from "../constants.js";
-import {greenColor, redColor} from "../extension/enum.js";
+import {POSITION_X, POSITION_Y, RADIUS} from "../strings.js";
 import {Ants} from "./ant.js";
+import {createAnthill} from "../script.js";
 
 export {AntSimulation}
 
 class AntSimulation {
-    constructor() {
+    constructor(texture) {
+        this.texture = texture;
+
         this.objectsInit();
         this.canvasInit();
 
@@ -24,9 +26,15 @@ class AntSimulation {
     }
 
     objectsSet(){
-        this.setAnthill();
-        this.setFood();
         this.setField();
+    }
+
+    //todo: rename
+    start(){
+        if (this.anthill.positionX === undefined) {
+            createAnthill(properties.bodySize / 2, properties.bodySize / 2);
+        }
+
         this.setAnts();
     }
 
@@ -57,17 +65,12 @@ class AntSimulation {
         this.context.fillRect(0, 0, this.width, this.height);
 
         this.context.fillStyle = properties.backgroundColor;
-        this.context.fillRect(BORDER_WIDTH, BORDER_WIDTH, this.width - BORDER_WIDTH * 2, this.height - BORDER_WIDTH * 2);
-    }
-
-    redrawAnthill() {
-        this.drawCircle(this.anthill[POSITION_X], this.anthill[POSITION_Y], this.anthill[RADIUS], redColor);
-    }
-
-    redrawFood() {
-        for (let i = 0; i < this.food.length; i++) {
-            this.drawCircle(this.food[i][POSITION_X], this.food[i][POSITION_Y], this.food[i][RADIUS], greenColor);
-        }
+        this.context.fillRect(
+            properties.bodySize,
+            properties.bodySize,
+            this.width - properties.bodySize * 2,
+            this.height - properties.bodySize * 2
+        );
     }
 
     redrawAnts() {
@@ -85,17 +88,12 @@ class AntSimulation {
         }
     }
 
-    /*loop() {
-        if (stop) return;
-
+    loop() {
         this.redrawBackground();
-        this.redrawAnthill();
-        this.redrawFood();
         this.redrawAnts();
+        //todo: separate redraw and update methods
         this.redrawTracks();
-
-        requestAnimationFrame(this.loop);
-    }*/
+    }
 
     setField() {
         //let this.field = new Array(500).fill(new Array(500).fill([]));
@@ -114,32 +112,16 @@ class AntSimulation {
     }
 
 //destination of this.anthills todo: add the ability to choose position
-    setFood() {
-        this.food.push(
-            {
-                'positionX': properties.foodSize + 10, 'positionY': properties.foodSize + 10,
-                'radius': properties.foodSize,
-                'worth': 50
-            }
-        );
-
-        this.food.push(
-            {
-                'positionX': properties.bodySize - properties.foodSize - 10,
-                'positionY': properties.bodySize - properties.foodSize - 10,
-                'radius': properties.foodSize / 2,
-                'worth': 20
-            }
-        );
+    setFood(food) {
+        this.food = food;
     }
 
 //destination of this.anthills todo: add the ability to choose position
-    setAnthill() {
-        Object.assign(
-            this.anthill,
-            {'positionX': properties.bodySize / 2, 'positionY': properties.bodySize / 2},
-            {'radius': properties.anthillSize},
-            {'worth': 100}
-        );
+    setAnthill(anthill) {
+        this.anthill = anthill;
+    }
+
+    clearCanvas(){
+        this.context.clearRect(0, 0, this.width, this.height)
     }
 }
