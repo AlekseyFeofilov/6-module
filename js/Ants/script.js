@@ -27,12 +27,14 @@ appendCanvas(tempCanvas);
 setFrontendCanvasClass(mainCanvas);
 setFrontendCanvasClass(tempCanvas);
 
+setBackground();
+
 let drawStatus = false;
 let actionStatus = "";
 let stopAntSimulation = false;
 let firstStart = true;
 
-let antSimulation = new AntSimulation();
+let antSimulation = new AntSimulation(mainContext);
 let anthill = {};
 let food = [];
 
@@ -78,11 +80,39 @@ document.querySelector(".button-clear").addEventListener(CLICK, (event) => {
     setDefaultCursor();
     clearAllCanvases();
 
+    setBackground();
     stopAntSimulation = true;
     firstStart = true;
-    antSimulation = new AntSimulation();
+    antSimulation = new AntSimulation(mainContext);
 });
 
+document.getElementById("greed").addEventListener("change", (event) => {
+    properties.antGreed = event.target.value;
+})
+
+document.getElementById("conformism").addEventListener("change", (event) => {
+    properties.antConservatism = event.target.value;
+})
+
+document.getElementById("patience").addEventListener("change", (event) => {
+    properties.antPatience = event.target.value;
+})
+
+//todo: set changeListener for pheromoneStrength slider
+
+function setBackground(){
+    mainContext.fillStyle = properties.backgroundBorderColor;
+    mainContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+
+    mainContext.clearRect(
+        properties.borderSize,
+        properties.borderSize,
+        mainCanvas.width - properties.borderSize * 2,
+        mainCanvas.height - properties.borderSize * 2
+    );
+}
+
+//todo: separate into files
 function appendCanvas(canvas) {
     document.querySelector('.frame').appendChild(canvas);
     canvas.width = properties.bodySize;
@@ -133,24 +163,26 @@ export function createAnthill(positionX, positionY) {
     };
 
     antSimulation.setAnthill(anthill);
+    circleDrawing(positionX, positionY, properties.anthillSize, redColor, mainContext)
 }
 
 function createFood(positionX, positionY, radius, worth) {
     food.push({'positionX': positionX, 'positionY': positionY, 'radius': radius, 'worth': worth});
     antSimulation.setFood(food);
+    circleDrawing(positionX, positionY, radius, greenColor, mainContext)
 }
 
 function goThrowInterval(min, max, value){
     return Math.min(Math.max(min, value), max);
 }
 
+//todo: separate into functions
 tempCanvas.addEventListener(MOUSEDOWN, event => {
     let positionX, positionY;
 
     switch (actionStatus) {
         case BORDER:
-            let borderSize = document.getElementById(BORDER_SIZE).value;
-            tempContext.clearRect(mouse.x - borderSize, mouse.y - borderSize, borderSize * 3, borderSize * 3);
+            tempContext.clearRect(mouse.x - 80, mouse.y - 50, 250, 250);
             startDraw(event, mainContext, mainCanvas, mouse)
             drawStatus = true;
             break;
@@ -167,7 +199,6 @@ tempCanvas.addEventListener(MOUSEDOWN, event => {
                 mouse.y
             );
             createAnthill(positionX, positionY);
-            circleDrawing(positionX, positionY, properties.anthillSize, redColor, mainContext)
             break;
 
         case FOOD:
@@ -184,7 +215,6 @@ tempCanvas.addEventListener(MOUSEDOWN, event => {
                 mouse.y
             );
             createFood(positionX, positionY, radius, worth);
-            circleDrawing(positionX, positionY, radius, greenColor, mainContext)
             break;
     }
 });
@@ -196,12 +226,12 @@ tempCanvas.addEventListener(MOUSEMOVE, event => {
                 draw(event, mainContext, mainCanvas, mouse)
             }
             else{
-                let borderSize = document.getElementById(BORDER_SIZE).value / 2;
-                tempContext.clearRect(mouse.x - borderSize, mouse.y, borderSize * 3, borderSize * 3);
+                let borderSize = document.getElementById(BORDER_SIZE).value;
+                tempContext.clearRect(mouse.x - 80, mouse.y - 50, 250, 250);
 
                 mouse.x = event.pageX - tempCanvas.offsetLeft;
                 mouse.y = event.pageY - tempCanvas.offsetTop;
-                tempContext.fillStyle = greyColor;
+                tempContext.fillStyle = 'rgba(128, 128, 128, 0.5)';
                 tempContext.fillRect(
                     mouse.x - 3 * borderSize / 4 - 5, mouse.y, borderSize * 2, borderSize * 2
                 );
@@ -244,6 +274,9 @@ tempCanvas.addEventListener(MOUSEOUT, event => {
             if (drawStatus) {
                 stopDrawing(event, mainContext)
                 drawStatus = false;
+            }
+            else{
+                tempContext.clearRect(mouse.x - 80, mouse.y - 50, 250, 250);
             }
             break;
         case ANTHILL:

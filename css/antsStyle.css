@@ -132,8 +132,6 @@ button:active{
     right: 10px;
 
     background-color: rgba(30, 30, 30, 1);
-    border: gray solid 5px;
-
     width: 590px;
     height: 590px;
 }

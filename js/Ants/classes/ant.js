@@ -31,7 +31,7 @@ class Ants {
     }
 
     getColor(positionX, positionY) {
-        return this.simulation.context.getImageData(positionX, positionY, 1, 1).data
+        return this.simulation.borderContext.getImageData(positionX, positionY, 1, 1).data;
     }
 
     isItNear(positionX, positionY, object) {
@@ -58,14 +58,23 @@ class Ants {
         this.direction += random(-properties.antConservatism, properties.antConservatism);
 
         //todo: experiment with get stacking
-        //let i = 0;
+        let i = 0;
         while (isGrey(this.getColor(
             this.getPositionX(this.direction),
             this.getPositionY(this.direction)
         ))) {
-            /*if(i++ > 8){
-                this.constructor();
-            }*/
+            if(i++ > 8){
+                //todo: remove duplicate code
+                this.positionX = this.simulation.anthill[POSITION_X] + Math.cos(this.direction) * this.simulation.anthill[RADIUS];
+                this.positionY = this.simulation.anthill[POSITION_Y] + Math.sin(this.direction) * this.simulation.anthill[RADIUS];
+                this.status = FOOD;
+                this.notStatus = ANTHILL;
+                this.pheromoneNumber = properties.pheromoneTrackLength;
+                this.worth = 5;
+                this.simulation.tracks.get(this.trackID).finish();
+                this.setTrack();
+                break;
+            }
 
             this.direction = random(0, Math.PI * 2);
         }

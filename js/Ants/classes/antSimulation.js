@@ -1,13 +1,12 @@
 import {properties} from "../properties.js";
-import {POSITION_X, POSITION_Y, RADIUS} from "../strings.js";
 import {Ants} from "./ant.js";
 import {createAnthill} from "../script.js";
 
 export {AntSimulation}
 
 class AntSimulation {
-    constructor(texture) {
-        this.texture = texture;
+    constructor(borderContext) {
+        this.borderContext = borderContext;
 
         this.objectsInit();
         this.canvasInit();
@@ -61,15 +60,12 @@ class AntSimulation {
 
 //todo: add html object instead of draw it
     redrawBackground() {
-        this.context.fillStyle = properties.backgroundBorderColor;
-        this.context.fillRect(0, 0, this.width, this.height);
-
         this.context.fillStyle = properties.backgroundColor;
         this.context.fillRect(
-            properties.bodySize,
-            properties.bodySize,
-            this.width - properties.bodySize * 2,
-            this.height - properties.bodySize * 2
+            properties.borderSize,
+            properties.borderSize,
+            this.width - properties.borderSize * 2,
+            this.height - properties.borderSize * 2
         );
     }
 

@@ -1,4 +1,4 @@
-import {redColor, blackColor, enumExportNumber, greyColor, backgroundColor} from "./extension/enum.js";
+import {redColor, blackColor, greyColor, backgroundColor} from "./extension/enum.js";
 
 const properties = {
     backgroundColor: backgroundColor,
