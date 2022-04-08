@@ -3,13 +3,13 @@ import {Pheromone} from "./pheromone.js";
 export {Track}
 
 class Track {
-    constructor(status, worth, ID, simulation) {
-        this.simulation = simulation;
+    constructor(ant) {
+        this.simulation = ant.simulation;
         this.pheromones = [];
-        this.ID = ID;
+        this.ID = ant.trackID;
 
-        this.status = status;
-        this.worth = worth;
+        this.status = ant.notStatus;
+        this.worth = ant.worth;
         this.complete = false;
 
         this.previousAntNumber = 0;
@@ -29,7 +29,10 @@ class Track {
     }
 
     update() {
-        if(!this.pheromones.length) return;
+        if(!this.pheromones.length){
+            if (this.complete) this.destroy();
+            return;
+        }
 
         while (this.pheromones.last().lifeCycle < 0) {
             let pheromone = this.pheromones.last();
@@ -56,8 +59,6 @@ class Track {
     }
 
     redraw() {
-        this.update();
-
         for (let pheromone of this.pheromones) {
             pheromone.redraw(this.status);
         }

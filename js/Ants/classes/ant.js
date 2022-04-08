@@ -1,15 +1,20 @@
 import {random} from "../extension/random.js";
-import {ANTHILL, FOOD, POSITION_X, POSITION_Y, RADIUS} from "../strings.js";
+import {ANTHILL, FOOD, POSITION_X, POSITION_Y, RADIUS, WORTH} from "../strings.js";
 import {properties} from "../properties.js";
 import {isGrey} from "../extension/color.js";
 import {Track} from "./track.js";
+import {circleDrawing} from "../extension/drawing.js";
 
-export {Ants}
-
-class Ants {
+export class Ants {
     constructor(simulation) {
         this.simulation = simulation;
+        this.canvas = this.simulation.antCanvas;
+        this.context = this.simulation.antContext;
+        this.init();
+        this.setTrack();
+    }
 
+    init(){
         this.direction = random(0, Math.PI * 2);
         this.positionX = this.simulation.anthill[POSITION_X] + Math.cos(this.direction) * this.simulation.anthill[RADIUS];
         this.positionY = this.simulation.anthill[POSITION_Y] + Math.sin(this.direction) * this.simulation.anthill[RADIUS];
@@ -18,8 +23,6 @@ class Ants {
         this.notStatus = ANTHILL;
         this.pheromoneNumber = properties.pheromoneTrackLength;
         this.worth = 5;
-
-        this.setTrack();
     }
 
     getPositionX(angle) {
@@ -34,9 +37,24 @@ class Ants {
         return this.simulation.borderContext.getImageData(positionX, positionY, 1, 1).data;
     }
 
+    //todo: separate into another file
     isItNear(positionX, positionY, object) {
         return Math.abs(positionX - object[POSITION_X]) < object[RADIUS] &&
             Math.abs(positionY - object[POSITION_Y]) < object[RADIUS]
+    }
+
+    foodCheck(){
+        this.simulation.food.forEach(food => {
+            if (this.isItNear(this.positionX, this.positionY, food) && this.status === FOOD) {
+                this.changeStatus(food[WORTH]);
+            }
+        });
+    }
+
+    anthillCheck(){
+        if (this.isItNear(this.positionX, this.positionY, this.simulation.anthill) && this.status === ANTHILL) {
+            this.changeStatus(this.simulation.anthill[WORTH]);
+        }
     }
 
     changeStatus(worth) {
@@ -51,26 +69,19 @@ class Ants {
 
     setTrack() {
         this.trackID = Symbol();
-        this.simulation.tracks.set(this.trackID, new Track(this.notStatus, this.worth, this.trackID, this.simulation));
+        this.simulation.tracks.set(this.trackID, new Track(this));
     }
 
     moveToRandomDirection() {
         this.direction += random(-properties.antConservatism, properties.antConservatism);
 
-        //todo: experiment with get stacking
         let i = 0;
         while (isGrey(this.getColor(
             this.getPositionX(this.direction),
             this.getPositionY(this.direction)
         ))) {
             if(i++ > 8){
-                //todo: remove duplicate code
-                this.positionX = this.simulation.anthill[POSITION_X] + Math.cos(this.direction) * this.simulation.anthill[RADIUS];
-                this.positionY = this.simulation.anthill[POSITION_Y] + Math.sin(this.direction) * this.simulation.anthill[RADIUS];
-                this.status = FOOD;
-                this.notStatus = ANTHILL;
-                this.pheromoneNumber = properties.pheromoneTrackLength;
-                this.worth = 5;
+                this.init()
                 this.simulation.tracks.get(this.trackID).finish();
                 this.setTrack();
                 break;
@@ -93,9 +104,9 @@ class Ants {
             if (track.status === this.status) {
                 let pheromone = track.pheromones[pheromoneIndex];
 
+                //todo: move to separate function and set define depending
                 if(Math.abs(pheromone.direction % (Math.PI * 2) - this.direction % (Math.PI * 2)) < Math.PI / 2 ||
                     Math.abs(pheromone.direction % (Math.PI * 2) - this.direction % (Math.PI * 2)) > (Math.PI * 2) - Math.PI / 2) {
-
 
                     let distance = pheromone.distance;
                     let antNumber = track.previousAntNumber;
@@ -107,7 +118,7 @@ class Ants {
                         worth ** properties.antGreed;
 
                     localPheromoneStrengths.push(
-                        {'trackID': trackID, 'pheromoneIndex': pheromoneIndex, 'probability': probability}
+                        {TRACK_ID: trackID, PHEROMONE_INDEX: pheromoneIndex, PROBABILITY: probability}
                     );
 
                     totalPheromoneStrength += probability;
@@ -116,7 +127,7 @@ class Ants {
         });
 
         for (let strength of localPheromoneStrengths){
-            strength['probability'] /= totalPheromoneStrength;
+            strength.PROBABILITY /= totalPheromoneStrength;
         }
 
         return localPheromoneStrengths;
@@ -128,18 +139,15 @@ class Ants {
         let next = 0;
 
         while (probability < randomNumber || next < probabilities.length) {
-            probability += probabilities[next++]['probability'];
+            probability += probabilities[next++].PROBABILITY;
         }
 
-        let trackID = probabilities[--next]['trackID'];
-        let pheromoneIndex = probabilities[next]['pheromoneIndex'];
+        let trackID = probabilities[--next].TRACK_ID;
+        let pheromoneIndex = probabilities[next].PHEROMONE_INDEX;
 
         this.direction = this.simulation.tracks.get(trackID).pheromones[pheromoneIndex].direction;
 
-        if(!isGrey(this.getColor(
-            this.getPositionX(this.direction),
-            this.getPositionY(this.direction)
-        ))) {
+        if(!isGrey(this.getColor(this.getPositionX(this.direction), this.getPositionY(this.direction)))) {
             this.positionX = this.getPositionX(this.direction);
             this.positionY = this.getPositionY(this.direction);
         }
@@ -149,8 +157,9 @@ class Ants {
     }
 
     spreadPheromone() {
-        let currentPosition = this.simulation.getFieldInformation(this.positionX, this.positionY)
-        currentPosition.set(this.trackID, this.simulation.tracks.get(this.trackID).pheromones.length - 1)
+        let currentPosition = this.simulation.getFieldInformation(this.positionX, this.positionY);
+        let pheromoneIndex = this.simulation.tracks.get(this.trackID).pheromones.length - 1;
+        currentPosition.set(this.trackID, pheromoneIndex);
     }
 
     makePheromone() {
@@ -171,15 +180,8 @@ class Ants {
     }
 
     move() {
-        this.simulation.food.forEach(food => {
-            if (this.isItNear(this.positionX, this.positionY, food) && this.status === FOOD) {
-                this.changeStatus(food['worth']);
-            }
-        });
-
-        if (this.isItNear(this.positionX, this.positionY, this.simulation.anthill) && this.status === ANTHILL) {
-            this.changeStatus(this.simulation.anthill['worth']);
-        }
+        this.foodCheck();
+        this.anthillCheck();
 
         let currentPheromones = this.simulation.getFieldInformation(this.positionX, this.positionY);
 
@@ -198,11 +200,14 @@ class Ants {
         this.makePheromone();
     }
 
+    //todo: make especial context
     redraw() {
-        this.simulation.drawCircle(
+        circleDrawing(
             this.positionX,
             this.positionY,
             properties.antSize,
-            properties.antColor);
+            properties.antColor,
+            this.context
+        );
     }
 }

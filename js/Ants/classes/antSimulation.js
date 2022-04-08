@@ -1,6 +1,6 @@
 import {properties} from "../properties.js";
 import {Ants} from "./ant.js";
-import {createAnthill} from "../script.js";
+import {appendCanvas, createAnthill} from "../script.js";
 
 export {AntSimulation}
 
@@ -11,8 +11,8 @@ class AntSimulation {
         this.objectsInit();
         this.canvasInit();
 
-        //todo: изменить на пользовательский сеттер
-        this.objectsSet();
+        this.setField();
+        this.canvasInit();
     }
 
     objectsInit(){
@@ -22,10 +22,6 @@ class AntSimulation {
         this.food = [];
         this.ants = [];
         this.field = [];
-    }
-
-    objectsSet(){
-        this.setField();
     }
 
     //todo: rename
@@ -38,34 +34,34 @@ class AntSimulation {
     }
 
     canvasInit() {
-        this.canvas = document.createElement('canvas');
-        this.context = this.canvas.getContext('2d');
-        document.querySelector('.frame').appendChild(this.canvas);
+        this.antCanvas = document.createElement('canvas');
+        this.antContext = this.antCanvas.getContext('2d');
 
-        this.width = this.canvas.width = properties.bodySize;
-        this.height = this.canvas.height = properties.bodySize;
-    }
+        this.pheromoneCanvas = document.createElement('canvas');
+        this.pheromoneContext = this.pheromoneCanvas.getContext('2d');
 
-    drawCircle(x, y, radius, color) {
-        this.context.beginPath();
-        this.context.arc(x, y, radius, 0, Math.PI * 2);
-        this.context.closePath();
-        this.context.fillStyle = color;
-        this.context.fill();
+        appendCanvas(this.antCanvas);
+        appendCanvas(this.pheromoneCanvas);
     }
 
     getFieldInformation(positionX, positionY) {
-        return this.field[Math.round(positionX / 6)][Math.round(positionY / 6)];
+        return this.field[Math.round(positionX / 3)][Math.round(positionY / 3)];
     }
 
-//todo: add html object instead of draw it
-    redrawBackground() {
-        this.context.fillStyle = properties.backgroundColor;
-        this.context.fillRect(
+//todo: set width ant height except bodySize
+    clearBackground() {
+        this.antContext.clearRect(
             properties.borderSize,
             properties.borderSize,
-            this.width - properties.borderSize * 2,
-            this.height - properties.borderSize * 2
+            properties.bodySize - properties.borderSize * 2,
+            properties.bodySize - properties.borderSize * 2
+        );
+
+        this.pheromoneContext.clearRect(
+            properties.borderSize,
+            properties.borderSize,
+            properties.bodySize - properties.borderSize * 2,
+            properties.bodySize - properties.borderSize * 2
         );
     }
 
@@ -76,29 +72,26 @@ class AntSimulation {
         }
     }
 
-//todo #NOT_TODO: don't touch please
     redrawTracks() {
         for (let track of this.tracks.values()) {
             track.clearTrack();
+            track.update();
             track.redraw();
         }
     }
 
     loop() {
-        this.redrawBackground();
+        this.clearBackground();
         this.redrawAnts();
-        //todo: separate redraw and update methods
         this.redrawTracks();
     }
 
     setField() {
-        //let this.field = new Array(500).fill(new Array(500).fill([]));
-        for (let i = 0; i < properties.gridSize; i++) {
-            this.field[i] = [];
-            for (let j = 0; j < properties.gridSize; j++) {
-                this.field[i][j] = new Map;
-            }
-        }
+        this.field = new Array(500)
+            .fill()
+            .map(() => new Array(500)
+                .fill()
+                .map(() => new Map));
     }
 
     setAnts() {
@@ -107,17 +100,16 @@ class AntSimulation {
         }
     }
 
-//destination of this.anthills todo: add the ability to choose position
     setFood(food) {
         this.food = food;
     }
 
-//destination of this.anthills todo: add the ability to choose position
     setAnthill(anthill) {
         this.anthill = anthill;
     }
 
-    clearCanvas(){
-        this.context.clearRect(0, 0, this.width, this.height)
+    clearCanvases(){
+        this.antContext.clearRect(0, 0, this.antCanvas.width, this.antCanvas.height)
+        this.pheromoneContext.clearRect(0, 0, this.antCanvas.width, this.antCanvas.height)
     }
 }

@@ -113,7 +113,7 @@ function setBackground(){
 }
 
 //todo: separate into files
-function appendCanvas(canvas) {
+export function appendCanvas(canvas) {
     document.querySelector('.frame').appendChild(canvas);
     canvas.width = properties.bodySize;
     canvas.height = properties.bodySize;
@@ -126,7 +126,7 @@ function setFrontendCanvasClass(canvas) {
 function clearAllCanvases() {
     clearCanvas(tempCanvas, tempContext);
     clearCanvas(mainCanvas, mainContext);
-    antSimulation.clearCanvas();
+    antSimulation.clearCanvases();
 }
 
 function clearCanvas(canvas, context) {

@@ -11,7 +11,7 @@ const properties = {
     antSize: 1,
     pheromoneSize: 2,
     anthillSize: 10,
-    gridSize: 200,
+    gridSize: 400,
     foodSize: 10,
 
     //todo: replace count to number
