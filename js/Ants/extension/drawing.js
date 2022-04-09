@@ -1,5 +1,5 @@
 import {greyColor} from "./enum.js";
-import {BORDER_SIZE} from "../strings.js";
+import {BORDER_SIZE} from "./strings.js";
 
 function startDraw(event, context, canvas, mouse) {
     mouse.x = event.pageX - canvas.offsetLeft;

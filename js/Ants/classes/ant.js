@@ -1,6 +1,6 @@
 import {random} from "../extension/random.js";
-import {ANTHILL, FOOD, POSITION_X, POSITION_Y, RADIUS, WORTH} from "../strings.js";
-import {properties} from "../properties.js";
+import {ANTHILL, FOOD, POSITION_X, POSITION_Y, RADIUS, WORTH} from "../extension/strings.js";
+import {properties} from "../extension/properties.js";
 import {isGrey} from "../extension/color.js";
 import {Track} from "./track.js";
 import {circleDrawing} from "../extension/drawing.js";

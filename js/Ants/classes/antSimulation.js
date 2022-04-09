@@ -1,4 +1,4 @@
-import {properties} from "../properties.js";
+import {properties} from "../extension/properties.js";
 import {Ants} from "./ant.js";
 import {appendCanvas, createAnthill} from "../script.js";
 

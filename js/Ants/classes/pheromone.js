@@ -1,5 +1,5 @@
-import {properties} from "../properties.js";
-import {FOOD} from "../strings.js";
+import {properties} from "../extension/properties.js";
+import {FOOD} from "../extension/strings.js";
 import {circleDrawing} from "../extension/drawing.js";
 
 export {Pheromone}

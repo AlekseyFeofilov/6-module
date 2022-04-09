@@ -1,4 +1,4 @@
-import {POSITION_X, POSITION_Y} from "../strings.js";
+import {POSITION_X, POSITION_Y} from "./strings.js";
 
 function random(min, max) {
     return Math.random() * (max - min) + min;

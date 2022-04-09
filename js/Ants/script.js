@@ -9,9 +9,9 @@ import {
     MOUSEOUT,
     MOUSEUP,
     NUTRITIONAL_VALUE
-} from "./strings.js";
+} from "./extension/strings.js";
 import {AntSimulation} from "./classes/antSimulation.js";
-import {properties} from "./properties.js";
+import {properties} from "./extension/properties.js";
 import {circleDrawing, draw, startDraw, stopDrawing} from "./extension/drawing.js";
 import {greenColor, greyColor, redColor} from "./extension/enum.js";
 
