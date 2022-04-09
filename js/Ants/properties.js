@@ -31,11 +31,13 @@ const properties = {
 
     //todo: play with step and coef.
     pheromoneLifeCycle: 100,
-    pheromoneLifeCycleStep: 10,
+    pheromoneLifeCycleStep: 3,
     pheromoneLifeCycleCoefficient: 20,
 
     pheromoneStrength: 40,
-    pheromoneTrackLength: 200,
+    pheromoneTrackLength: 600,
+
+    drawPheromone: false,
 }
 
 export {properties};

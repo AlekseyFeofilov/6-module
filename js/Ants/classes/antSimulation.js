@@ -16,6 +16,7 @@ class AntSimulation {
     }
 
     objectsInit(){
+        this.tact = 0;
         this.anthill = {};
         this.tracks = new Map;
 
@@ -48,8 +49,7 @@ class AntSimulation {
         return this.field[Math.round(positionX / 3)][Math.round(positionY / 3)];
     }
 
-//todo: set width ant height except bodySize
-    clearBackground() {
+    redrawAnts() {
         this.antContext.clearRect(
             properties.borderSize,
             properties.borderSize,
@@ -57,15 +57,6 @@ class AntSimulation {
             properties.bodySize - properties.borderSize * 2
         );
 
-        this.pheromoneContext.clearRect(
-            properties.borderSize,
-            properties.borderSize,
-            properties.bodySize - properties.borderSize * 2,
-            properties.bodySize - properties.borderSize * 2
-        );
-    }
-
-    redrawAnts() {
         for (let ant of this.ants) {
             ant.move();
             ant.redraw();
@@ -73,15 +64,28 @@ class AntSimulation {
     }
 
     redrawTracks() {
+        if(this.tact === 0) {
+            this.pheromoneContext.clearRect(
+                properties.borderSize,
+                properties.borderSize,
+                properties.bodySize - properties.borderSize * 2,
+                properties.bodySize - properties.borderSize * 2
+            );
+        }
+
         for (let track of this.tracks.values()) {
             track.clearTrack();
             track.update();
-            track.redraw();
+
+            if(this.tact === 0) {
+                track.redraw();
+            }
         }
+
+        this.tact = (this.tact + 1) % 5;
     }
 
     loop() {
-        this.clearBackground();
         this.redrawAnts();
         this.redrawTracks();
     }

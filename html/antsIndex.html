@@ -19,22 +19,25 @@
         </ul>
         <div class="properties">
             <div class="propertiesRange">
-                <label for="greed"></label><input type="range" min="1" max="100" value="1" step="1" class="slider" id="greed">
-                <label for="conformism"></label><input type="range" min="1" max="100" value="3" step="1" class="slider" id="conformism">
-                <label for="patience"></label><input type="range" min="1" max="100000" value="100000" step="1000" class="slider" id="patience">
+                <label for="greed"></label><input type="range" min="0" max="1.5" value="1" step="0.01" class="slider" id="greed">
+                <label for="conformism"></label><input type="range" min="0" max="10" value="3" step="1" class="slider" id="conformism">
+                <label for="patience"></label><input type="range" min="0" max="10" value="1" step="0.01" class="slider" id="patience">
                 <label for="nutritionalValue"></label><input type="range" min="1" max="100" value="50" step="1" class="slider" id="nutritionalValue">
-                <label for="pheromoneStrength"></label><input type="range" min="1" max="100" value="50" step="1" class="slider" id="pheromoneStrength">
+                <label for="pheromoneStrength"></label><input type="range" min="3" max="29.5" value="8" step="0.5" class="slider" id="pheromoneStrength">
             </div>
             <div class="propertiesExplanation">
                 <p>Greed coefficient</p>
                 <p>Conformism coefficient</p>
                 <p>Patience coefficient</p>
-                <p>Nutritional value</p>
+                <p>Nutritional value & brush size</p>
                 <p>Pheromone strength</p>
             </div>
         </div>
         <div class="clear">
             <button type="button" class="button-clear">Clear</button>
+        </div>
+        <div class="visibility">
+            <button type="button" class="button-pheromone-visibility">Pheromone: invisible</button>
         </div>
     </div>
     <div class="frame">

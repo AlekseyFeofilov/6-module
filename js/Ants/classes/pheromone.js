@@ -21,18 +21,18 @@ class Pheromone {
     }
 
     redraw(status) {
-        this.lifeDecrease();
-        //todo: set canvas after ant-canvas and update pheromones-canvas after several step
-        let transparent = this.lifeCycle / (this.distance + properties.pheromoneTrackLength) / 40;
+        if(properties.drawPheromone) {
+            let transparent = this.lifeCycle / (this.distance + properties.pheromoneTrackLength) / 40;
 
-        circleDrawing(
-            this.positionX,
-            this.positionY,
-            properties.pheromoneSize,
-            status === FOOD ?
-                `rgba(40, 255, 40, ${transparent})`
-                : `rgba(255, 40, 40, ${transparent})`,
-            this.context
-        );
+            circleDrawing(
+                this.positionX,
+                this.positionY,
+                properties.pheromoneSize,
+                status === FOOD ?
+                    `rgba(40, 255, 40, ${transparent})`
+                    : `rgba(255, 40, 40, ${transparent})`,
+                this.context
+            );
+        }
     }
 }

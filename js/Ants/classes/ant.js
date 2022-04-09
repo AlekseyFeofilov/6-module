@@ -58,6 +58,8 @@ export class Ants {
     }
 
     changeStatus(worth) {
+        this.makePheromone();
+
         [this.status, this.notStatus] = [this.notStatus, this.status];
         this.pheromoneNumber = properties.pheromoneTrackLength;
         this.direction += Math.PI;
@@ -113,7 +115,7 @@ export class Ants {
                     let worth = track.worth;
                     track.pushAnt();
 
-                    let probability = properties.antPatience / distance ** 2 +
+                    let probability = (properties.pheromoneTrackLength / distance) ** properties.antPatience *
                         (antNumber + 1) ** properties.antConformism *
                         worth ** properties.antGreed;
 
@@ -167,7 +169,7 @@ export class Ants {
 
         this.pheromoneNumber--;
 
-        if (this.simulation.getFieldInformation(this.positionX, this.positionY).size > 25 ||
+        if (this.simulation.getFieldInformation(this.positionX, this.positionY).size > 10 ||
             this.simulation.getFieldInformation(this.positionX, this.positionY).has(this.trackID)) {
             return;
         }
@@ -185,7 +187,7 @@ export class Ants {
 
         let currentPheromones = this.simulation.getFieldInformation(this.positionX, this.positionY);
 
-        if (!currentPheromones.size || 0.3 / currentPheromones.size > random(0, 1)) {
+        if (!currentPheromones.size || 0.1 / currentPheromones.size > random(0, 1)) {
             this.moveToRandomDirection();
         } else {
             let probabilities = this.calculateProbability(currentPheromones);

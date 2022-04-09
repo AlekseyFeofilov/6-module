@@ -86,16 +86,33 @@ document.querySelector(".button-clear").addEventListener(CLICK, (event) => {
     antSimulation = new AntSimulation(mainContext);
 });
 
+document.querySelector(".button-pheromone-visibility").addEventListener(CLICK, (event) => {
+    if(event.target.innerText === 'pheromone: visible'){
+        event.target.innerText = 'pheromone: invisible';
+        properties.drawPheromone = false;
+    }
+    else{
+        event.target.innerText = 'pheromone: visible';
+        properties.drawPheromone = true;
+    }
+});
+
+
+
 document.getElementById("greed").addEventListener("change", (event) => {
     properties.antGreed = event.target.value;
 })
 
 document.getElementById("conformism").addEventListener("change", (event) => {
-    properties.antConservatism = event.target.value;
+    properties.antConformism = event.target.value;
 })
 
 document.getElementById("patience").addEventListener("change", (event) => {
     properties.antPatience = event.target.value;
+})
+
+document.getElementById("pheromoneStrength").addEventListener("change", (event) => {
+    properties.pheromoneLifeCycleStep = 30 - event.target.value;
 })
 
 //todo: set changeListener for pheromoneStrength slider

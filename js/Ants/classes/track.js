@@ -47,6 +47,10 @@ class Track {
                 return;
             }
         }
+
+        for (let pheromone of this.pheromones) {
+            pheromone.lifeDecrease();
+        }
     }
 
     pushAnt() {
@@ -54,6 +58,10 @@ class Track {
     }
 
     clearTrack() {
+        if(this.curretnAntNumber === undefined || this.previousAntNumber === undefined){
+            debugger;
+        }
+
         this.previousAntNumber = this.curretnAntNumber;
         this.curretnAntNumber = 0;
     }

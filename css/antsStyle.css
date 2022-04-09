@@ -40,7 +40,7 @@ button {
     margin-top: 10px;
 }
 
-.option > button, .button-clear {
+.option > button, .button-clear, .button-pheromone-visibility {
     background: rgb(140, 71, 15) radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, .2), rgba(0, 0, 0, 0));
     color: rgb(93, 47, 10);
 }
@@ -61,7 +61,13 @@ button {
 }
 
 .button-clear {
+    position: absolute;
     margin-left: 580px;
+}
+
+.button-pheromone-visibility{
+    position: absolute;
+    margin-left: 80px;
 }
 
 .properties {
