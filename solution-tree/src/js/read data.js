@@ -172,9 +172,12 @@ function doCalculationsWithNumber(infoStrings, indexOfAttribute, mainEntropyValu
     let values = [];
     for(let i = 0; i < infoStrings.length; i++) {
         values.push(Number(infoStrings[i][indexOfAttribute]));
+    }
+    let uniqueSet = new Set(values);
+    values = [...uniqueSet];
+    for(let i = 0; i < values.length; i++) {
         indexes.push(i);
     }
-
     quickSort(0, values.length - 1, values, indexes);
 
     let average = [];
