@@ -1,5 +1,8 @@
-let infoStrings = [];
+let infoStrings;
+let nodesDividedByLayers = [];
+
 getLearningInformation.onclick = function() {
+    infoStrings = [];
     let learningText = learningInformation.value;
     learningInformation.value = "";
     let currentRules = "";
@@ -18,54 +21,23 @@ getLearningInformation.onclick = function() {
             currentRules = "";
         }
     }
-    alert(infoStrings);
-}
-
-/*
-Yes, Yes, 83, No
-Yes, No, 7, No
-No, Yes, 50, Yes
-No, Yes, 35, Yes
-Yes, Yes, 38, Yes
-Yes, No, 18, No
-No, No, 12, No
- */
-infoStrings = [
-    ['Yes', 'Yes', 83, 'No'],
-    ['Yes', 'No', 7, 'No'],
-    ['No', 'Yes', 50, 'Yes'],
-    ['No', 'Yes', 35, 'Yes'],
-    ['Yes', 'Yes', 38, 'Yes'],
-    ['Yes', 'No', 18, 'No'],
-    ['No', 'No', 12, 'No']
-]
-
-let rightAnswer = infoStrings[0][infoStrings[0].length - 1];
-let wrongAnswer;
-
-for(let i = 0; i < infoStrings.length; i++) {
-    if(infoStrings[i][infoStrings[i].length - 1] != rightAnswer) {
-        wrongAnswer = infoStrings[i][infoStrings[i].length - 1];
-        break;
-    }
-}
-
-getUserInformation.onclick = function() {
-    let userInfo = learningInformation.value;
-    if (userInfo.indexOf('\n') != -1) {
-        alert("Введите только одну строку");
-    }
-    else {
-        learningInformation.value = "";
-    }
 }
 
 class Node {
-    constructor(data) {
+    constructor(data, question) {
         this.data = data;
         this.left = null;
         this.right = null;
+        this.parent = null;
+        this.children = null;
+        this.exceptions = [];
         this.success = null;
+        this.question = question;
+        this.numericValue = null;
+        this.positionX = null;
+        this.positionY = null;
+        this.length = null;
+        this.width = null;
     }
 }
 
@@ -75,14 +47,18 @@ class Tree {
     }
 }
 
-function GiniForLeaf(conditionYes, conditionNo) {
-    return 1 - Math.pow((conditionYes / (conditionYes + conditionNo)), 2) - Math.pow((conditionNo / (conditionYes + conditionNo)), 2);
-}
+let classificationTree = new Tree();
 
-function Gini(trueYes, trueNo, falseYes, falseNo) {
-    let GiniForTrue = GiniForLeaf(trueYes, trueNo);
-    let GiniForFalse = GiniForLeaf(falseYes, falseNo);
-    return ((trueYes + trueNo) / (trueYes + trueNo + falseYes + falseNo)) * GiniForTrue + ((falseYes + falseNo) / (trueYes + trueNo + falseYes + falseNo)) * GiniForFalse;
+function Entropy(outcomes) {
+    let elementsNumber = 0;
+    for(let i = 0; i < outcomes.length; i++) {
+        elementsNumber += outcomes[i];
+    }
+    let entropyValue = 0;
+    for(let i = 0; i < outcomes.length; i++) {
+        entropyValue += -(outcomes[i] / elementsNumber) * Math.log2(outcomes[i] / elementsNumber);
+    }
+    return entropyValue;
 }
 
 function quickSort(begin, end, array, indexes) {
@@ -112,152 +88,389 @@ function quickSort(begin, end, array, indexes) {
     }
 }
 
-let classificationTree = new Tree();
+function getGainValue(mainEntropyValue, entropies, entropyInformation, outcomes) {
 
-function setRoot(infoStrings, currentNode) {
-    let trueCondition = new Array(infoStrings[0].length - 1);
-    let falseCondition = new Array(infoStrings[0].length - 1);
-    let impurityValues = new Array(infoStrings[0].length - 1);
-    for(let i = 0; i < infoStrings[0].length - 1; i++) {
-        trueCondition[i] = new Array(2);
-        falseCondition[i] = new Array(2);
-        trueCondition[i][0] = 0;
-        trueCondition[i][1] = 0;
-        falseCondition[i][0] = 0;
-        falseCondition[i][1] = 0;
+    let outcomesNumber = 0;
+    for(let i = 0; i < outcomes.length; i++) {
+        outcomesNumber += outcomes[i];
     }
-    for(let i = 0; i < infoStrings[0].length - 1; i++) {
-        if(isNaN(Number(infoStrings[0][i]))) {
-            let trueValue = infoStrings[0][i];
-            for(let j = 0; j < infoStrings.length; j++) {
-                if(infoStrings[j][i] == trueValue) {
-                    if(infoStrings[j][infoStrings[j].length - 1] == rightAnswer) {
-                        trueCondition[i][0]++;
-                    }
-                    else {
-                        trueCondition[i][1]++;
-                    }
-                }
-                else {
-                    if(infoStrings[j][infoStrings[j].length - 1] == rightAnswer) {
-                        falseCondition[i][0]++;
-                    }
-                    else {
-                        falseCondition[i][1]++;
-                    }
-                }
-            }
-            let GiniImpurity = Gini(trueCondition[i][0], trueCondition[i][1], falseCondition[i][0], falseCondition[i][1]);
-            impurityValues[i] = GiniImpurity;
-        }
-        else {
-            let array = [];
-            let indexes = [];
-            for(let j = 0; j < infoStrings.length; j++) {
-                array[j] = infoStrings[j][i];
-                indexes[j] = j;
-            }
-            //return;
-            quickSort(0, array.length - 1, array, indexes);
-            let average = [];
-            for(let j = 0; j < indexes.length - 1; j++) {
-                let avg = (array[indexes[j]] + array[indexes[j + 1]]) / 2;
-                average.push(avg);
-            }
-            let trueConditionForNumbers = new Array(average.length);
-            let falseConditionForNumbers = new Array(average.length);
-            let numbersImpurity = new Array(average.length);
-            for(let j = 0; j < average.length; j++) {
-                trueConditionForNumbers[j] = new Array(2);
-                falseConditionForNumbers[j] = new Array(2);
-                trueConditionForNumbers[j][0] = 0;
-                trueConditionForNumbers[j][1] = 0;
-                falseConditionForNumbers[j][0] = 0;
-                falseConditionForNumbers[j][1] = 0;
-            }
-            for(let j = 0; j < average.length; j++) {
-                for(let k = 0; k < infoStrings.length; k++) {
-                    if(infoStrings[k][i] < average[j]) {
-                        if(infoStrings[k][infoStrings[0].length - 1] == rightAnswer) {
-                            trueConditionForNumbers[j][0]++;
-                        }
-                        else {
-                            trueConditionForNumbers[j][1]++;
-                        }
-                    }
-                    else {
-                        if(infoStrings[k][infoStrings[0].length - 1] == rightAnswer) {
-                            falseConditionForNumbers[j][0]++;
-                        }
-                        else {
-                            falseConditionForNumbers[j][1]++;
-                        }
-                    }
-                }
-                let currentImpurity = Gini(trueConditionForNumbers[j][0], trueConditionForNumbers[j][1], falseConditionForNumbers[j][0], falseConditionForNumbers[j][1]);
-                numbersImpurity[j] = currentImpurity;
-            }
-            let minimImpurity = Infinity;
-            let minElement;
-            for(let j = 0; j < numbersImpurity.length; j++) {
-                if(numbersImpurity[j] < minimImpurity) {
-                    minimImpurity = numbersImpurity[j];
-                    minElement = j;
-                }
-            }
-            impurityValues[i] = minimImpurity;
-            trueCondition[i][0] = trueConditionForNumbers[minElement][0];
-            trueCondition[i][1] = trueConditionForNumbers[minElement][1];
-            falseCondition[i][0] = falseConditionForNumbers[minElement][0];
-            falseCondition[i][1] = falseConditionForNumbers[minElement][1];
+
+    let attributeValuesNumber = new Array(entropyInformation.length);
+    for(let i = 0; i < attributeValuesNumber.length; i++) {
+        attributeValuesNumber[i] = 0;
+    }
+
+    for(let i = 0; i < entropyInformation.length; i++) {
+        for(let j = 0; j < entropyInformation[i].length; j++) {
+            attributeValuesNumber[i] += entropyInformation[i][j];
         }
     }
-    let minValue = impurityValues[0];
-    let index = 0;
-    for(let i = 1; i < impurityValues.length; i++) {
-        if(impurityValues[i] < minValue) {
-            minValue = impurityValues;
+
+    let gainValue = mainEntropyValue;
+    for(let i = 0; i < entropies.length; i++) {
+        gainValue -= entropies[i] * (attributeValuesNumber[i] / outcomesNumber);
+    }
+    return gainValue;
+}
+
+function doCalculationsWithString(infoStrings, indexOfAttribute, mainEntropyValue, outcomes) {
+
+    // Поиск уникальных атрибутов
+    let valuesOfAttribute = [];
+    for(let i = 0; i < infoStrings.length; i++) {
+        if(valuesOfAttribute.indexOf(infoStrings[i][indexOfAttribute]) == -1) {
+            valuesOfAttribute.push(infoStrings[i][indexOfAttribute]);
+        }
+    }
+
+    let possibleOutcomes = [];
+    for(let i = 0; i < infoStrings.length; i++) {
+        if(possibleOutcomes.indexOf(infoStrings[i][infoStrings[i].length - 1]) == -1) {
+            possibleOutcomes.push(infoStrings[i][infoStrings[i].length - 1]);
+        }
+    }
+
+    // В этой матрице будет проводиться подсчет статистики для энтропии
+    let entropyInformation = new Array(valuesOfAttribute.length);
+    for(let i = 0; i < valuesOfAttribute.length; i++) {
+        entropyInformation[i] = new Array(possibleOutcomes.length);
+        for(let j = 0; j < possibleOutcomes.length; j++) {
+            entropyInformation[i][j] = 0;
+        }
+    }
+
+    // Подсчет статистики для энтропии
+    for(let i = 0; i < valuesOfAttribute.length; i++) {
+        for(let j = 0; j < infoStrings.length; j++) {
+            if(infoStrings[j][indexOfAttribute] == valuesOfAttribute[i]) {
+                // Ищем какой индекс исхода у этого элемента
+                for(let k = 0; k < possibleOutcomes.length; k++) {
+                    if(infoStrings[j][infoStrings[j].length - 1] == possibleOutcomes[k]) {
+                        entropyInformation[i][k]++;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Вычисление энтропии для каждого значения данного атрибута
+    let entropies = [];
+    for(let i = 0; i < entropyInformation.length; i++) {
+        entropies.push(Entropy(entropyInformation[i]));
+        if(isNaN(entropies[i])) {
+            entropies[i] = 0;
+        }
+    }
+
+    return getGainValue(mainEntropyValue, entropies, entropyInformation, outcomes);
+}
+
+function doCalculationsWithNumber(infoStrings, indexOfAttribute, mainEntropyValue, outcomes) {
+
+    let indexes = [];
+    let values = [];
+    for(let i = 0; i < infoStrings.length; i++) {
+        values.push(Number(infoStrings[i][indexOfAttribute]));
+        indexes.push(i);
+    }
+
+    quickSort(0, values.length - 1, values, indexes);
+
+    let average = [];
+    for(let i = 0; i < indexes.length - 1; i++) {
+        average.push((Number(values[indexes[i]]) + Number(values[indexes[i + 1]])) / 2);
+    }
+
+    let possibleOutcomes = [];
+    for(let i = 0; i < infoStrings.length; i++) {
+        if(possibleOutcomes.indexOf(infoStrings[i][infoStrings[i].length - 1]) == -1) {
+            possibleOutcomes.push(infoStrings[i][infoStrings[i].length - 1]);
+        }
+    }
+
+    // Разбиение данных на 2 группы и обработка данных для подсчета энтропии для каждой из групп
+    let leftBranchEntropy = new Array(average.length);
+    let rightBranchEntropy = new Array (average.length);
+
+    for(let i = 0; i < average.length; i++) {
+        leftBranchEntropy[i] = new Array(possibleOutcomes.length);
+        rightBranchEntropy[i] = new Array(possibleOutcomes.length);
+        for(let m = 0; m < possibleOutcomes.length; m++) {
+            leftBranchEntropy[i][m] = 0;
+            rightBranchEntropy[i][m] = 0;
+        }
+        for(let j = 0; j < infoStrings.length; j++) {
+            if(Number(infoStrings[j][indexOfAttribute]) < average[i]) {
+                for(let k = 0; k < possibleOutcomes.length; k++) {
+                    if(infoStrings[j][infoStrings[j].length - 1] == possibleOutcomes[k]) {
+                        leftBranchEntropy[i][k]++;
+                        break;
+                    }
+                }
+            }
+            else {
+                for(let k = 0; k < possibleOutcomes.length; k++) {
+                    if(infoStrings[j][infoStrings[j].length - 1] == possibleOutcomes[k]) {
+                        rightBranchEntropy[i][k]++;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // подсчет энтропии
+    let entropies = new Array(average.length);
+    for(let i = 0; i < average.length; i++) {
+        entropies[i] = new Array(2);
+        entropies[i][0] = Entropy(leftBranchEntropy[i]);
+        entropies[i][1] = Entropy(rightBranchEntropy[i]);
+        if(isNaN(entropies[i][0])) {
+            entropies[i][0] = 0;
+        }
+        if(isNaN(entropies[i][1])) {
+            entropies[i][1] = 0;
+        }
+    }
+
+    let gainValues = new Array(average.length);
+    for(let i = 0; i < average.length; i++) {
+        let entropyInformation = new Array(2);
+        entropyInformation[0] = [0];
+        entropyInformation[1] = [0];
+        for(let j = 0; j < possibleOutcomes.length; j++) {
+            entropyInformation[0][0] += leftBranchEntropy[i][j];
+            entropyInformation[1][0] += rightBranchEntropy[i][j];
+        }
+        gainValues[i] = getGainValue(mainEntropyValue, entropies[i], entropyInformation, outcomes);
+    }
+
+    let maxGainValue = -Infinity;
+    let index = -1;
+    let bestAverage;
+    for(let i = 0; i < gainValues.length; i++) {
+        if(gainValues[i] > maxGainValue) {
+            maxGainValue = gainValues[i];
             index = i;
+            bestAverage = average[i];
         }
     }
-    currentNode = new Node(index);
-    if(GiniForLeaf(trueCondition[index][0], trueCondition[index][1]) != 0) {
-        let newInfoStrings = [];
-        for(let i = 0; i < infoStrings.length; i++) {
-            if(infoStrings[i][index] == infoStrings[0][index]) {
-                newInfoStrings.push(infoStrings[i]);
-            }
-        }
-        currentNode.left = setRoot(newInfoStrings);
-    }
-    else {
-        currentNode.left = new Node(0);
-        if(trueCondition[index][0] > trueCondition[index][1]) {
-            currentNode.left.success = rightAnswer;
+
+    return [maxGainValue, bestAverage];
+}
+
+function isInExceptions(currentNode, index) {
+    let exceptions = [];
+    while (currentNode.parent !== null) {
+        if(currentNode.parent.data - 1 == index) {
+            return true;
         }
         else {
-            currentNode.left.success = wrongAnswer;
+            currentNode = currentNode.parent;
         }
     }
-    if(GiniForLeaf(falseCondition[index][0], falseCondition[index][1]) != 0) {
-        let newInfoStrings = [];
-        for(let i = 0; i < infoStrings.length; i++) {
-            if(infoStrings[i][index] != infoStrings[0][index]) {
-                newInfoStrings.push(infoStrings[i]);
-            }
-        }
-        currentNode.right = setRoot(newInfoStrings);
+    if(exceptions.indexOf(index) == -1) {
+        return false;
     }
     else {
-        currentNode.right = new Node(0);
-        if(falseCondition[index][0] > falseCondition[index][1]) {
-            currentNode.right.success = rightAnswer;
+        return true;
+    }
+}
+
+function getExceptionsNumber(currentNode) {
+    let counter = 0;
+    while (currentNode.parent !== null) {
+        counter++;
+        currentNode = currentNode.parent;
+    }
+    return counter;
+}
+
+function buildTree(infoStrings, parentNode, layersNumber) {
+
+    let currentNode = new Node();
+    currentNode.parent = parentNode;
+
+    if(nodesDividedByLayers[layersNumber] == null) {
+        nodesDividedByLayers[layersNumber] = [];
+    }
+    // Смотрим, какие исходы на данном этапе есть. Эта информация понадобится при подсчете энтропии
+    let outcomesValues = [];
+    let outcomes = [];
+    for(let i = 0; i < infoStrings.length; i++) {
+        let indexOfOutcome = outcomesValues.indexOf(infoStrings[i][infoStrings[i].length - 1]);
+        if(indexOfOutcome == -1) {
+            outcomesValues.push(infoStrings[i][infoStrings[i].length - 1]);
+            outcomes.push(1);
         }
         else {
-            currentNode.right.success = wrongAnswer;
+            outcomes[indexOfOutcome]++;
         }
     }
+
+    let entropyValue = Entropy(outcomes);
+    if(entropyValue == 0 || infoStrings[0].length - 1 == getExceptionsNumber(currentNode)) { // Условие того, что перед нами лист
+        if(entropyValue == 0) {
+            currentNode.data = 0;
+            currentNode.parent = parentNode;
+            currentNode.success = outcomesValues[0];
+            currentNode.length = String(currentNode.success).length;
+            currentNode.width = currentNode.length * pt;
+            nodesDividedByLayers[layersNumber].push(currentNode);
+            return currentNode;
+        }
+        else {
+            currentNode.data = 0;
+            currentNode.parent = parentNode;
+            let maxim = -1;
+            let indexMax = -1;
+            for(let i = 0; i < outcomes.length; i++) {
+                if(outcomes[i] > maxim) {
+                    maxim = outcomes[i];
+                    indexMax = i;
+                }
+            }
+            currentNode.success = outcomesValues[indexMax];
+            currentNode.length = String(currentNode.success).length;
+            currentNode.width = currentNode.length * pt;
+            nodesDividedByLayers[layersNumber].push(currentNode);
+            return currentNode;
+        }
+    }
+
+    // Ищем максимальнй информационный прирост
+    let maxGainValue = -Infinity;
+    let index = -1;
+
+    for(let i = 0; i < infoStrings[0].length - 1; i++) {
+        if(!isInExceptions(currentNode, i)) {
+            let currentAttributeGainValue;
+            if(isNaN(Number(infoStrings[0][i]))) { // если атрибут - строка
+                currentAttributeGainValue = doCalculationsWithString(infoStrings, i, entropyValue, outcomes);
+                if(currentAttributeGainValue > maxGainValue) {
+                    maxGainValue = currentAttributeGainValue;
+                    index = i;
+                }
+            }
+            else { // если атрибут - число
+                currentAttributeGainValue = doCalculationsWithNumber(infoStrings, i, entropyValue, outcomes);
+                if(currentAttributeGainValue[0] > maxGainValue) {
+                    maxGainValue = currentAttributeGainValue[0];
+                    index = i;
+                    var bestAverage = currentAttributeGainValue[1];
+                }
+            }
+        }
+    }
+
+    currentNode.data = index + 1;
+    currentNode.parent = parentNode;
+    currentNode.length = String(currentNode.data).length + 9;
+    currentNode.width = currentNode.length * pt;
+
+    // Если текущий вопрос связан с числом, то надо запомнить это число
+    if(!isNaN(Number(infoStrings[0][index]))) {
+        currentNode.numericValue = bestAverage;
+        currentNode.length = String(currentNode.numericValue).length + 9 + String(currentNode.data).length;
+        currentNode.width = currentNode.length * pt;
+    }
+
+
+    // Для строковых данных
+    if(isNaN(Number(infoStrings[0][index]))) {
+        let valuesOfAttribute = [];
+        for(let i = 0; i < infoStrings.length; i++) {
+            if(valuesOfAttribute.indexOf(infoStrings[i][index]) == -1) {
+                valuesOfAttribute.push(infoStrings[i][index]);
+            }
+        }
+        currentNode.children = new Array(valuesOfAttribute.length);
+        for(let i = 0; i < valuesOfAttribute.length; i++) {
+            let newInfoStrings = [];
+            for(let j = 0; j < infoStrings.length; j++) {
+                if(infoStrings[j][index] == valuesOfAttribute[i]) {
+                    newInfoStrings.push(infoStrings[j]);
+                }
+            }
+            currentNode.children[i] = buildTree(newInfoStrings, currentNode, layersNumber + 1);
+            currentNode.children[i].question = valuesOfAttribute[i];
+            let maxQuantity = -1;
+            let ind = -1;
+            if(getExceptionsNumber(currentNode) == infoStrings[0].length - 1) {
+                for(let j = 0; j < outcomes.length; j++) {
+                    if(outcomes[j] > maxQuantity) {
+                        maxQuantity = outcomes[j];
+                        ind = j;
+                    }
+                }
+                currentNode.children[i].success = outcomesValues[ind];
+            }
+        }
+    }
+
+    // Для численных данных
+    else {
+        currentNode.children = new Array(2);
+        let newInfoStringsForLeft = [];
+        let newInfoStringsForRight = [];
+        for(let i = 0; i < infoStrings.length; i++) {
+            if(infoStrings[i][index] < bestAverage) {
+                newInfoStringsForLeft.push(infoStrings[i]);
+            }
+            else {
+                newInfoStringsForRight.push(infoStrings[i]);
+            }
+        }
+        currentNode.children[0] = buildTree(newInfoStringsForLeft, currentNode, layersNumber + 1);
+        currentNode.children[1] = buildTree(newInfoStringsForRight, currentNode, layersNumber + 1);
+        currentNode.children[0].question = "Да";
+        currentNode.children[1].question = "Нет";
+        let maxQuantity = -1;
+        let ind = -1;
+        if(getExceptionsNumber(currentNode) == infoStrings[0].length - 1) {
+            for(let j = 0; j < outcomes.length; j++) {
+                if(outcomes[j] > maxQuantity) {
+                    maxQuantity = outcomes[j];
+                    ind = j;
+                }
+            }
+            currentNode.children[0].success = outcomesValues[ind];
+            currentNode.children[1].success = outcomesValues[ind];
+        }
+    }
+
+    nodesDividedByLayers[layersNumber].push(currentNode);
     return currentNode;
 }
-classificationTree.root = setRoot(infoStrings);
-alert(classificationTree.root.data);
+
+let infoUser = [];
+
+treeBuilding.onclick = function() {
+    if(infoStrings.length == 0) {
+        alert("Введите обучающую выборку");
+        return;
+    }
+    else {
+        rightAnswer = infoStrings[0][infoStrings[0].length - 1];
+        for(let i = 0; i < infoStrings.length; i++) {
+            if(infoStrings[i][infoStrings[i].length - 1] != rightAnswer) {
+                wrongAnswer = infoStrings[i][infoStrings[i].length - 1];
+                break;
+            }
+        }
+        classificationTree.root = buildTree(infoStrings, null, 0);
+        drawTree();
+    }
+}
+
+getUserInformation.onclick = function() {
+    let userInfo = learningInformation.value;
+    if (userInfo.indexOf('\n') != -1) {
+        alert("Введите только одну строку");
+    }
+    else {
+        learningInformation.value = "";
+        infoUser = userInfo.split(", ");
+    }
+}

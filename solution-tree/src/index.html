@@ -11,10 +11,16 @@
 <body>
 <h1>Дерево решений</h1>
 <div>
-    <label for="learningInformation"></label><textarea placeholder="Введите обучающую выборку" id="learningInformation"></textarea>
+    <label for="learningInformation"></label><textarea placeholder="Введите обучающую выборку или элемент" id="learningInformation"></textarea>
 </div>
-<input type="button" value="Обучить дерево" id="getLearningInformation">
+<input type="button" value="Ввести выборку" id="getLearningInformation">
 <input type="button" value="Ввести элемент" id="getUserInformation">
+<div>
+    <input type="button" value="Построить дерево" id="treeBuilding">
+    <input type="button" value="Прогнать элемент" id="getPath">
+</div>
+<canvas id="canvas" width="10000" height="10000"></canvas>
+<script src="js/draw%20tree.js"></script>
 <script src="js/read%20data.js"></script>
 </body>
 </html>
