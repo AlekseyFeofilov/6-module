@@ -96,7 +96,7 @@ function drawTree(tree, nodesDividedByLayers) {
     tree.root.positionX = startX;
     tree.root.positionY = startY;
     example.height = startY * 2;
-    example.width = nodesDividedByLayers.length * 400 + 14 * nodesDividedByLayers.length * pt;
+    example.width = nodesDividedByLayers.length * 400 + 14 * nodesDividedByLayers.length * pt + 100;
     ctx.font = "15pt Comic Sans MS";
 
     if(nodesDividedByLayers[0][0].data != 0) {
@@ -159,10 +159,6 @@ function drawPath() {
     }
 }
 
-function makeTextAppeared() {
-
-}
-
 getPath.onclick = function() {
     if(infoUser.length == 0) {
         alert("Введите исследуемый элемент");
@@ -177,6 +173,5 @@ getPath.onclick = function() {
             getResult(classificationTree.root, infoUser);
         }
         drawPath();
-        makeTextAppeared()
     }
 }
