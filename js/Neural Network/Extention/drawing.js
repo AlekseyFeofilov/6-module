@@ -29,6 +29,7 @@ function clear(event, context, mouse, offset){
     context.clearRect(mouse.x - a, mouse.y - a, a * 2, a * 2);
 }
 
+//DON'T PAY YOUR ATTENTION for that. It's the hidden function, I wasn't being worry about clear code because it's just a fast little test
 function pixelDraw(event, context, mouse, offset){
     mouse.x = event.pageX - offset.offsetLeft;
     mouse.y = event.pageY - offset.offsetTop;
