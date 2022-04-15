@@ -1,0 +1,27 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Кластеризация</title>
+  <link rel="stylesheet" href="../css/clusteringStyle.css" type="text/css"/>
+
+<script src="../js/variables.js"></script>
+<script src="../js/draw.js"></script>
+<script src="../js/clustering.js"></script>
+<script></script>
+</head>
+
+<body onload="setCanvas()">
+      <input type="checkbox" id="kmeans" class="check">
+      <label for="kmeans">k-средних</label>
+      <input type="checkbox" id="mst" class="check">
+      <label for="mst">Остовное дерево</label>
+      <input type="checkbox" id="hierarchical" class="check">
+      <label for="mst">Иерархическая</label>
+      <p>Количество кластеров: <input type="number" min="1" max="15" value="4" onKeyDown="return false" id="centroids"></p>
+  <canvas width="850" height="450" id="myCanvas" onclick="circle(event)"></canvas>
+  <p>
+  <input type="button" class="btn" value="Показать" onclick="show()">
+  <input type="button" class="btn" value="Очистить" onclick="clearCanvas()">
+ </p>
+</body>
+</html>
