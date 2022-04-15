@@ -1,0 +1,42 @@
+body 
+{
+background-image: url('https://neg.by/upload/iblock/fee/mjjhztehdrba9wj2y5alo8bw4vl78bfc.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;
+text-align: center;
+vertical-align: middle;
+}
+
+.btn
+{
+transition: 1s;
+box-shadow: 0px 1px 12px 2px #9ef0ae;
+background:linear-gradient(to bottom, #8cfa9d 5%, #307010 100%);
+background-color:#8cfa9d;
+border-radius:15px;
+border:1px solid #3ebd3e;
+color:#000000;
+font-size:14px;
+font-weight:bold;
+padding:10px 32px;
+}
+
+.btn:hover
+{
+transition: 1s;
+box-shadow: 0px 1px 12px 8px #9ff0ae;
+background:linear-gradient(to bottom, #8eff0d 5%, #097910 100%);
+cursor:pointer;
+}
+
+canvas
+{
+background: #000000;
+display: block;
+margin: 0 auto;
+border: 2px ridge yellow;
+border-radius: 11px;
+box-shadow: 0px 0px 7px 4px goldenrod;
+cursor: pointer;
+}

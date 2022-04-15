@@ -1,0 +1,19 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+<title>Генетический алгоритм</title>
+<link rel="stylesheet" href="../css/geneticsStyle.css" type="text/css"/>
+<script src="../js/genetics/variables.js"></script>
+<script src="../js/genetics/draw.js"></script>
+<script src="../js/genetics/gen.js"></script>
+</head>
+
+<body onload="setCanvas()">
+  <form>
+    <p><input type="button" class="btn" value=" Стереть холст " onclick="clearCanvas()"></p>
+    <p><input type="button" class="btn" value=" Решение " onclick="genalgo()"></p>
+   </form>
+  <canvas width="500" height="500" id="myCanvas" onclick="circle(event)"></canvas>
+
+</body>
+</html>
