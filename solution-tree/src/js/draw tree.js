@@ -1,9 +1,8 @@
 let example = document.getElementById("canvas");
 ctx = example.getContext('2d')
-ctx.font = "15pt Comic Sans MS";
 
-let pt = 10.279947916666666666666666666667;
-let heightDifference = 250;
+let pt = 10.779947916666666666666666666667;
+let heightDifference = 250; // разница между вершинами дерева
 
 function drawLine(currentNode, fromX, fromY, toX, toY) {
     ctx.beginPath();
@@ -14,28 +13,28 @@ function drawLine(currentNode, fromX, fromY, toX, toY) {
     if(toY - fromY > 0) {
         ctx.font = "bold 13pt Comic Sans MS";
         ctx.fillStyle = '#0059ff'
-        ctx.fillText(currentNode.question, toX - currentNode.question.length * pt / 2 - 10, toY - 30);
+        ctx.fillText(currentNode.question, toX - String(currentNode.question).length * pt / 2 - 10, toY - 30);
         ctx.font = "15pt Comic Sans MS";
         ctx.fillStyle = '#000000';
     }
     else if(toY - fromY < 0) {
         ctx.font = "bold 13pt Comic Sans MS";
         ctx.fillStyle = '#0059ff'
-        ctx.fillText(currentNode.question, toX - currentNode.question.length * pt / 2 - 10, toY + 30);
+        ctx.fillText(currentNode.question, toX - String(currentNode.question).length * pt / 2 - 10, toY + 30);
         ctx.font = "15pt Comic Sans MS";
         ctx.fillStyle = '#000000';
     }
     else {
         ctx.font = "bold 13pt Comic Sans MS";
         ctx.fillStyle = '#0059ff'
-        ctx.fillText(currentNode.question, toX - currentNode.question.length * pt / 2 - 40, toY + 14);
+        ctx.fillText(currentNode.question, toX - String(currentNode.question).length * pt / 2 - 40, toY + 14);
         ctx.font = "15pt Comic Sans MS";
         ctx.fillStyle = '#000000';
     }
     ctx.closePath();
 }
 
-function drawLayer(startX, startY, currentLayer, currentStart) {
+function drawLayer(startX, startY, currentLayer, currentStart, nodesDividedByLayers) {
 
     let currentLevelNodesNumber = nodesDividedByLayers[currentLayer].length;
     let startPositionX = currentStart;
@@ -82,18 +81,23 @@ function drawLines(currentNode) {
 
 }
 
-function drawTree() {
-
+function drawTree(tree, nodesDividedByLayers) {
+    // очистка canvas'а
+    ctx.clearRect(0, 0, example.width, example.height);
     let maxHeight = -1;
     for(let i = 0; i < nodesDividedByLayers.length; i++) {
         if(nodesDividedByLayers[i].length > maxHeight) {
             maxHeight = nodesDividedByLayers[i].length;
         }
     }
-
-    //console.log(maxHeight);
-    let startX = 0;
+    let startX = 100;
     let startY = heightDifference * maxHeight / 2 + heightDifference;
+
+    tree.root.positionX = startX;
+    tree.root.positionY = startY;
+    example.height = startY * 2;
+    example.width = nodesDividedByLayers.length * 400 + 14 * nodesDividedByLayers.length * pt;
+    ctx.font = "15pt Comic Sans MS";
 
     if(nodesDividedByLayers[0][0].data != 0) {
         if(nodesDividedByLayers.numericValue != null) {
@@ -114,10 +118,9 @@ function drawTree() {
             }
         }
         startX += maxWidth + 400;
-        drawLayer(0, startY, i, startX);
+        drawLayer(0, startY, i, startX, nodesDividedByLayers);
     }
-    //console.log(classificationTree);
-    drawLines(classificationTree.root);
+    drawLines(tree.root);
 }
 
 let path = [];
@@ -156,6 +159,10 @@ function drawPath() {
     }
 }
 
+function makeTextAppeared() {
+
+}
+
 getPath.onclick = function() {
     if(infoUser.length == 0) {
         alert("Введите исследуемый элемент");
@@ -163,7 +170,13 @@ getPath.onclick = function() {
     }
     else {
         path = [];
-        getResult(classificationTree.root, infoUser);
+        if(optimizedTree.root != null) {
+            getResult(optimizedTree.root, infoUser);
+        }
+        else {
+            getResult(classificationTree.root, infoUser);
+        }
         drawPath();
+        makeTextAppeared()
     }
 }
