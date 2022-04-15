@@ -1,0 +1,212 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("../js/Neural Network/Image/HD-wallpaper-neurons-complex.jpg");
+    background-size: cover;
+    overflow: auto;
+    user-select: none;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    height: 100%;
+}
+
+td {
+    padding: 0;
+}
+
+.visual {
+    width: 35%;
+}
+
+.scaled-image {
+    height: 50%;
+}
+
+.result {
+    height: 50%;
+}
+
+.description {
+    padding-top: 10px;
+    margin-bottom: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.description, .text {
+    background-color: #1c0a38;
+    color: #d5c4f3;
+}
+
+.display {
+    position: relative;
+    background-color: black;
+    margin: 0 auto;
+    width: 300px;
+    height: 300px;
+    border: #d5c4f3 solid 5px;
+}
+
+.work-space {
+    position: relative;
+    z-index: 0;
+}
+
+.draw-clear {
+    z-index: 0;
+    width: 100%;
+}
+
+.draw-clear-button-list {
+    text-align: justify;
+    padding: 0 130px;
+    margin: 0 50px 0 0;
+}
+
+.draw-clear-button-list > li {
+    display: inline-block;
+}
+
+.draw-clear-button-list > li > button, .clear-all {
+    font-size: 16px;
+    padding: 4px 32px;
+    background-color: #FFFFFF;
+}
+
+.clear-all {
+    margin-top: 16px;
+}
+
+.answer-scale {
+    position: absolute;
+    left: 560px;
+}
+
+.digit-scale {
+    margin-top: 40px;
+}
+
+.scale {
+    display: inline-block;
+    background-color: green;
+    height: 10px;
+    width: 40px;
+}
+
+.draw-space {
+    position: relative;
+    z-index: -1;
+    box-sizing: border-box;
+    width: 625px;
+    height: 625px;
+    background: black;
+    border: #d5c4f3 solid 5px;
+    border-right: #d5c4f3 solid 70px;
+}
+
+.info {
+    width: 40%;
+}
+
+.download {
+    height: 20%;
+}
+
+.name {
+    padding: 10px 0 8px 0;
+    font-weight: bold;
+}
+
+.button-download {
+    display: block;
+    margin: 16px auto 0 auto;
+}
+
+.accuracy-info {
+    padding-left: 40px;
+}
+
+.train {
+    height: 80%;
+}
+
+.setting-list {
+    margin: 0 auto 16px 40px;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.text {
+    text-align: center;
+}
+
+.setting .text {
+    padding: 0 6px;
+}
+
+.setting {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+input {
+    display: block;
+    margin: 8px auto 0 auto;
+}
+
+.li-width {
+    width: 100%;
+    height: 0;
+    visibility: hidden;
+}
+
+.button-training {
+    display: block;
+    margin: 0 auto 0 auto;
+}
+
+.training-info {
+    margin: 24px auto 0 auto;
+    border: black solid 1px;
+    width: 300px;
+    height: 400px;
+    overflow: auto;
+    background-color: #d5c4f3;
+    user-select: text;
+}
+
+.training-info > div {
+    padding: 6px 0 0 8px;
+}
+
+.training-process {
+    text-align: justify;
+    padding: 0 20%;
+}
+
+.training-process > li {
+    display: inline-block;
+}
+
+button {
+    background-color: #d5c4f3;
+}
+
+canvas {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: -1px;
+}
+
+.display > canvas {
+    left: 0;
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="../css/neuralNetworkStyle.css">
+</head>
+<body>
+<table>
+    <tr>
+        <td class="visual">
+            <div class="scaled-image">
+                <div class="neural-network-view description">Neural network view:</div>
+                <div class="neural-network-view display"></div>
+            </div>
+            <div class="result">
+                <div class="reply description">Neural network reply:</div>
+                <div class="reply display"></div>
+            </div>
+        </td>
+        <td class="work-space">
+            <div class="draw-clear">
+                <ul class="draw-clear-button-list">
+                    <li>
+                        <button type="button" class="draw-button">draw (D)</button>
+                    </li>
+                    <li>
+                        <button type="button" class="clear-button">clear (C)</button>
+                    </li>
+                    <li class="li-width"></li>
+                </ul>
+            </div>
+            <div class="answer-scale">
+                <div class="digit-scale">
+                    <span class="digit">0</span>
+                    <div class="scale scale-zero"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">1</span>
+                    <div class="scale scale-one"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">2</span>
+                    <div class="scale scale-two"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">3</span>
+                    <div class="scale scale-three"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">4</span>
+                    <div class="scale scale-four"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">5</span>
+                    <div class="scale scale-five"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">6</span>
+                    <div class="scale scale-six"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">7</span>
+                    <div class="scale scale-seven"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">8</span>
+                    <div class="scale scale-eight"></div>
+                </div>
+                <div class="digit-scale">
+                    <span class="digit">9</span>
+                    <div class="scale scale-nine"></div>
+                </div>
+            </div>
+            <div class="draw-space">
+
+            </div>
+            <button type="button" class="clear-all">clear all (A)</button>
+        </td>
+        <td class="info">
+            <div class="download">
+                <div class="name text">Neural Network Melisa</div>
+                <div class="saved-neural-network accuracy-info text">Accuracy: 9999 correct answers out of 10000 from
+                    MNIST
+                </div>
+                <button type="button" class="button-download">Download Neural Network (I)</button>
+            </div>
+            <div class="train">
+                <ul class="setting-list">
+                    <li class="epoch-setting setting">
+                        <div class="epoch-number text">n-epoch</div>
+                        <label><input class="epoch-number-value" type="text" size="8" value="20"></label>
+                    </li>
+                    <li class="hidden-layer-setting setting">
+                        <div class="hidden-layer text">n-hidden layer</div>
+                        <label><input class="hidden-layer-value" type="text" size="8" value="1"></label>
+                    </li>
+                    <li class="neuron-number-setting setting">
+                        <div class="neuron-number text">n-neuron (x1, x2, ...)</div>
+                        <label><input class="neuron-number-value" type="text" size="8" value="256"></label>
+                    </li>
+                    <li class="li-width"></li>
+                </ul>
+                <button type="button" class="button-training">Train</button>
+                <div class="training-info">
+
+                </div>
+                <ul class="training-process">
+                    <li>
+                        <button type="button" class="button-stop-training">Stop training</button>
+                    </li>
+                    <li>
+                        <button type="button" class="button-continue-training">Continue training</button>
+                    </li>
+                    <li class="li-width"></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<script type="module" src="../js/Neural Network/script.js"></script>
+</body>
+</html>
