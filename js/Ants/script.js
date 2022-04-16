@@ -193,6 +193,11 @@ function goThrowInterval(min, max, value){
     return Math.min(Math.max(min, value), max);
 }
 
+function mouseUpdate(event){
+    mouse.x = event.pageX - offset.offsetLeft;
+    mouse.y = event.pageY - offset.offsetTop;
+}
+
 tempCanvas.addEventListener(MOUSEDOWN, event => {
     let positionX, positionY;
 
@@ -250,8 +255,7 @@ tempCanvas.addEventListener(MOUSEMOVE, event => {
                 let borderSize = document.getElementById(BORDER_SIZE).value;
                 tempContext.clearRect(mouse.x - 80, mouse.y - 50, 250, 250);
 
-                mouse.x = event.pageX - offset.offsetLeft;
-                mouse.y = event.pageY - offset.offsetTop;
+                mouseUpdate(event);
                 tempContext.fillStyle = 'rgba(128, 128, 128, 0.5)';
                 tempContext.fillRect(
                     mouse.x - 3 * borderSize / 4 - 5, mouse.y, borderSize * 2, borderSize * 2
@@ -267,15 +271,13 @@ tempCanvas.addEventListener(MOUSEMOVE, event => {
                 properties.anthillSize * 2
             );
 
-            mouse.x = event.pageX - offset.offsetLeft;
-            mouse.y = event.pageY - offset.offsetTop;
+            mouseUpdate(event);
             circleDrawing(mouse.x, mouse.y, properties.anthillSize, 'rgba(255, 40, 40, 0.5)', tempContext);
             break;
 
         case FOOD:
             tempContext.clearRect(mouse.x - 30, mouse.y - 30, 60, 60);
-            mouse.x = event.pageX - offset.offsetLeft;
-            mouse.y = event.pageY - offset.offsetTop;
+            mouseUpdate(event);
             let radius = 10 + document.getElementById(NUTRITIONAL_VALUE).value / 5;
             circleDrawing(mouse.x, mouse.y, radius, 'rgba(40, 255, 40, 0.5)', tempContext);
             break;
@@ -300,6 +302,7 @@ tempCanvas.addEventListener(MOUSEOUT, event => {
                 tempContext.clearRect(mouse.x - 80, mouse.y - 50, 250, 250);
             }
             break;
+
         case ANTHILL:
         case FOOD:
             tempContext.clearRect(mouse.x - 30, mouse.y - 30, 60, 60)

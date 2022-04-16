@@ -106,7 +106,6 @@ export class Ants {
             if (track.status === this.status) {
                 let pheromone = track.pheromones[pheromoneIndex];
 
-                //todo: move to separate function and set define depending
                 if(Math.abs(pheromone.direction % (Math.PI * 2) - this.direction % (Math.PI * 2)) < Math.PI / 2 ||
                     Math.abs(pheromone.direction % (Math.PI * 2) - this.direction % (Math.PI * 2)) > (Math.PI * 2) - Math.PI / 2) {
 
