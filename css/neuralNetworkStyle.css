@@ -60,7 +60,6 @@ td {
 }
 
 .draw-clear {
-    z-index: 0;
     width: 100%;
 }
 
@@ -200,7 +199,16 @@ button {
     background-color: #d5c4f3;
 }
 
+button:hover, button:active{
+    opacity: 0.7;
+}
+
+button:active{
+    background-color: #1c0a38;
+}
+
 canvas {
+    cursor: crosshair;
     position: absolute;
     z-index: 1;
     top: 0;
