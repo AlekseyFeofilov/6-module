@@ -147,13 +147,15 @@ td {
     text-align: center;
 }
 
-.setting .text {
+.setting > .text {
     padding: 0 6px;
 }
 
 .setting {
     display: inline-block;
     padding-right: 20px;
+    margin-top: 8px;
+    width: 150px;
 }
 
 input {
@@ -205,6 +207,11 @@ button:hover, button:active{
 
 button:active{
     background-color: #1c0a38;
+}
+
+.hidden-layer-value, .epoch-number-value{
+    width: 50%;
+    display: inline;
 }
 
 canvas {
