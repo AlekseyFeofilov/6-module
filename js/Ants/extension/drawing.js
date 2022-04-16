@@ -1,9 +1,9 @@
 import {greyColor} from "./enum.js";
 import {BORDER_SIZE} from "./strings.js";
 
-function startDraw(event, context, canvas, mouse) {
-    mouse.x = event.pageX - canvas.offsetLeft;
-    mouse.y = event.pageY - canvas.offsetTop;
+function startDraw(event, context, mouse, offset) {
+    mouse.x = event.pageX - offset.offsetLeft;
+    mouse.y = event.pageY - offset.offsetTop;
 
     context.beginPath();
     context.moveTo(mouse.x, mouse.y);
@@ -12,9 +12,9 @@ function startDraw(event, context, canvas, mouse) {
     context.lineWidth = document.getElementById(BORDER_SIZE).value;
 }
 
-function draw(event, context, canvas, mouse) {
-    mouse.x = event.pageX - canvas.offsetLeft;
-    mouse.y = event.pageY - canvas.offsetTop;
+function draw(event, context, mouse, offset) {
+    mouse.x = event.pageX - offset.offsetLeft;
+    mouse.y = event.pageY - offset.offsetTop;
 
     context.lineTo(mouse.x, mouse.y);
     context.stroke();

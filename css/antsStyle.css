@@ -1,25 +1,64 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background-image: url("https://img3.badfon.ru/wallpaper/big/6/f3/muravi-priroda-makro.jpg");
     background-size: cover;
     margin: 0;
-    overflow: hidden;
+    overflow: auto;
     user-select: none;
 }
 
-.options {
-    margin-left: 40px;
-    width: 700px;
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    height: 100%;
+}
+
+td {
+    padding: 0;
+}
+
+.menu{
+    width: 60%;
+    padding-right: 30px;
+}
+
+.options-container, .start-stop-container, .clear-visibility-container{
+    width: 100%;
+    display: block;
+}
+
+.clear-visibility-container{
+    margin-top: 40px;
+}
+
+ul {
+    margin: 0;
     text-align: justify;
 }
 
-.optionWidth {
+li {
+    display: inline-block;
+}
+
+.li-width {
     width: 100%;
     height: 0;
     visibility: hidden;
 }
 
-.options > li {
-    display: inline-block;
+.display{
+    width: 40%;
+}
+
+.button-stop, .button-start {
+    width: 250px;
+    background: rgb(28, 107, 114) radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, .2), rgba(0, 0, 0, 0));
+    color: rgb(0, 79, 86);
 }
 
 button {
@@ -45,61 +84,24 @@ button {
     color: rgb(93, 47, 10);
 }
 
-.button-stop, .button-start {
-    position: fixed;
-    width: 250px;
-    background: rgb(28, 107, 114) radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, .2), rgba(0, 0, 0, 0));
-    color: rgb(0, 79, 86);
-}
-
-.button-stop {
-    right: 35px;
-}
-
-.button-start {
-    right: 330px;
-}
-
-.button-clear {
-    position: absolute;
-    margin-left: 580px;
-}
-
-.button-pheromone-visibility{
-    position: absolute;
-    margin-left: 80px;
-}
-
 .properties {
     margin-left: 50px;
     margin-top: 60px;
 }
 
-.propertiesExplanation {
-    z-index: -1;
-    position: relative;
-    margin-left: 50px;
-}
-
-.propertiesExplanation p {
+.properties p {
     height: 22px;
-    margin-bottom: 70px;
     color: rgb(90, 169, 169);
+    margin: 24px 0 0 50px;
     font-size: 24px;
     font-weight: bold;
     font-family: "Times New Roman", serif;
 }
 
-.propertiesRange {
-    width: 750px;
-    position: absolute;
-    margin-top: 25px;
-    color: rgb(28, 107, 114);
-}
-
 .slider {
     -webkit-appearance: none;
     border-radius: 15px;
+    margin-bottom: 17px;
     height: 20px;
     width: 100%;
     background: rgb(140, 71, 15);
@@ -107,7 +109,6 @@ button {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
-    margin-bottom: 70px;
 }
 
 .slider::-webkit-slider-thumb {
@@ -133,9 +134,8 @@ button:active{
 }
 
 .frame {
-    position: fixed;
-    bottom: 20px;
-    right: 10px;
+    position: relative;
+    margin-left: 20px;
 
     background-color: rgba(30, 30, 30, 1);
     width: 590px;
@@ -143,7 +143,7 @@ button:active{
 }
 
 .frame > canvas{
-    position: fixed;
+    position: absolute;
     margin-left: -5px;
     margin-top: -5px;
     z-index: 0;
@@ -151,13 +151,4 @@ button:active{
 
 .frame .frontend-canvas{
     z-index: 1;
-}
-
-.circle {
-    margin: 0;
-    border-radius: 100%;
-    width: 20px;
-    height: 20px;
-    background: red;
-    position: absolute;
 }

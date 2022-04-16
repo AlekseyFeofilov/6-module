@@ -10,8 +10,8 @@ const MOUSEUP = 'mouseup';
 const MOUSEDOWN = 'mousedown';
 const MOUSEMOVE = 'mousemove';
 const MOUSEOUT = 'mouseout';
-const NUTRITIONAL_VALUE = 'nutritionalValue';
-const BORDER_SIZE = 'nutritionalValue';
+const NUTRITIONAL_VALUE = 'nutritional-value-slider';
+const BORDER_SIZE = 'nutritional-value-slider';
 
 export {
     WORTH,

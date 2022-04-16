@@ -6,43 +6,83 @@
     <link type="text/css" rel="stylesheet" href="../css/antsStyle.css">
 </head>
 <body>
-    <div class="menu">
-        <div class="start-stop">
-            <button type="button" class="button-start">Start</button>
-            <button type="button" class="button-stop">Stop</button>
-        </div>
-        <ul class="options">
-            <li class="option"><button type="button" class="button-set-anthill">anthill</button></li>
-            <li class="option"><button type="button" class="button-set-food">food</button></li>
-            <li class="option"><button type="button" class="button-set-border">border</button></li>
-            <li class="optionWidth"></li>
-        </ul>
-        <div class="properties">
-            <div class="propertiesRange">
-                <label for="greed"></label><input type="range" min="0" max="1.5" value="1" step="0.01" class="slider" id="greed">
-                <label for="conformism"></label><input type="range" min="0" max="10" value="3" step="1" class="slider" id="conformism">
-                <label for="patience"></label><input type="range" min="0" max="10" value="1" step="0.01" class="slider" id="patience">
-                <label for="nutritionalValue"></label><input type="range" min="1" max="100" value="50" step="1" class="slider" id="nutritionalValue">
-                <label for="pheromoneStrength"></label><input type="range" min="3" max="29.5" value="8" step="0.5" class="slider" id="pheromoneStrength">
+<table>
+    <tr>
+        <td class="menu">
+            <div class="options-container">
+                <ul class="options-list">
+                    <li class="option">
+                        <button type="button" class="button-set-anthill">anthill</button>
+                    </li>
+                    <li class="option">
+                        <button type="button" class="button-set-food">food</button>
+                    </li>
+                    <li class="option">
+                        <button type="button" class="button-set-border">border</button>
+                    </li>
+                    <li class="li-width"></li>
+                </ul>
             </div>
-            <div class="propertiesExplanation">
-                <p>Greed coefficient</p>
-                <p>Conformism coefficient</p>
-                <p>Patience coefficient</p>
-                <p>Nutritional value & brush size</p>
-                <p>Pheromone strength</p>
+            <div class="properties">
+                <div class="greed">
+                    <p>Greed coefficient</p>
+                    <label for="greed-slider"></label><input type="range" min="0" max="1.5" value="1" step="0.01"
+                                                             class="slider" id="greed-slider">
+                </div>
+                <div class="conformism">
+                    <p>Conformism coefficient</p>
+                    <label for="conformism-slider"></label><input type="range" min="0" max="10" value="3" step="1"
+                                                                  class="slider" id="conformism-slider">
+                </div>
+                <div class="patience">
+                    <p>Patience coefficient</p>
+                    <label for="patience-slider"></label><input type="range" min="0" max="10" value="1" step="0.01"
+                                                                class="slider" id="patience-slider">
+                </div>
+                <div class="nutritional-value">
+                    <p>Nutritional value & brush size</p>
+                    <label for="nutritional-value-slider"></label><input type="range" min="1" max="100" value="50"
+                                                                         step="1"
+                                                                         class="slider" id="nutritional-value-slider">
+                </div>
+                <div class="pheromone-strength">
+                    <p>Pheromone strength</p>
+                    <label for="pheromoneStrength-slider"></label><input type="range" min="3" max="29.5" value="8"
+                                                                         step="0.5"
+                                                                         class="slider" id="pheromoneStrength-slider">
+                </div>
             </div>
-        </div>
-        <div class="clear">
-            <button type="button" class="button-clear">Clear</button>
-        </div>
-        <div class="visibility">
-            <button type="button" class="button-pheromone-visibility">Pheromone: invisible</button>
-        </div>
-    </div>
-    <div class="frame">
+            <div class="clear-visibility-container">
+                <ul>
+                    <li class="clear">
+                        <button type="button" class="button-clear">Clear</button>
+                    </li>
+                    <li class="visibility">
+                        <button type="button" class="button-pheromone-visibility">Pheromone: invisible</button>
+                    </li>
+                    <li class="li-width"></li>
+                </ul>
+            </div>
+        </td>
+        <td class="display">
+            <div class="start-stop-container">
+                <ul class="start-stop-list">
+                    <li class="start-stop">
+                        <button type="button" class="button-start">Start</button>
+                    </li>
+                    <li class="start-stop">
+                        <button type="button" class="button-stop">Stop</button>
+                    </li>
+                    <li class="li-width"></li>
+                </ul>
+            </div>
+            <div class="frame">
 
-    </div>
-    <script type="module" src="../js/Ants/script.js"></script>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<script type="module" src="../js/Ants/script.js"></script>
 </body>
 </html>

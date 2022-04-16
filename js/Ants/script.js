@@ -13,13 +13,18 @@ import {
 import {AntSimulation} from "./classes/antSimulation.js";
 import {properties} from "./extension/properties.js";
 import {circleDrawing, draw, startDraw, stopDrawing} from "./extension/drawing.js";
-import {greenColor, greyColor, redColor} from "./extension/enum.js";
+import {greenColor, redColor} from "./extension/enum.js";
 
 let mainCanvas = document.createElement('canvas');
 let mainContext = mainCanvas.getContext('2d');
 
 let tempCanvas = document.createElement('canvas');
 let tempContext = tempCanvas.getContext('2d');
+
+let offset = {
+    offsetLeft: document.querySelector(".frame").offsetLeft,
+    offsetTop: document.querySelector(".frame").offsetTop
+};
 
 appendCanvas(mainCanvas);
 appendCanvas(tempCanvas);
@@ -58,22 +63,22 @@ document.querySelector(".button-stop").addEventListener(CLICK, () => {
     setDefaultCursor();
 });
 
-document.querySelector(".button-set-anthill").addEventListener(CLICK, (event) => {
+document.querySelector(".button-set-anthill").addEventListener(CLICK, () => {
     actionStatus = ANTHILL;
     setCrosshairCursor()
 });
 
-document.querySelector(".button-set-food").addEventListener(CLICK, (event) => {
+document.querySelector(".button-set-food").addEventListener(CLICK, () => {
     actionStatus = FOOD;
     setCrosshairCursor();
 });
 
-document.querySelector(".button-set-border").addEventListener(CLICK, (event) => {
+document.querySelector(".button-set-border").addEventListener(CLICK, () => {
     actionStatus = BORDER;
     setDefaultCursor();
 });
 
-document.querySelector(".button-clear").addEventListener(CLICK, (event) => {
+document.querySelector(".button-clear").addEventListener(CLICK, () => {
     actionStatus = "";
     food = [];
     anthill = {};
@@ -97,25 +102,21 @@ document.querySelector(".button-pheromone-visibility").addEventListener(CLICK, (
     }
 });
 
-
-
-document.getElementById("greed").addEventListener("change", (event) => {
+document.getElementById("greed-slider").addEventListener("change", (event) => {
     properties.antGreed = event.target.value;
 })
 
-document.getElementById("conformism").addEventListener("change", (event) => {
+document.getElementById("conformism-slider").addEventListener("change", (event) => {
     properties.antConformism = event.target.value;
 })
 
-document.getElementById("patience").addEventListener("change", (event) => {
+document.getElementById("patience-slider").addEventListener("change", (event) => {
     properties.antPatience = event.target.value;
 })
 
-document.getElementById("pheromoneStrength").addEventListener("change", (event) => {
+document.getElementById("pheromoneStrength-slider").addEventListener("change", (event) => {
     properties.pheromoneLifeCycleStep = 30 - event.target.value;
 })
-
-//todo: set changeListener for pheromoneStrength slider
 
 function setBackground(){
     mainContext.fillStyle = properties.backgroundBorderColor;
@@ -129,7 +130,6 @@ function setBackground(){
     );
 }
 
-//todo: separate into files
 export function appendCanvas(canvas) {
     document.querySelector('.frame').appendChild(canvas);
     canvas.width = properties.bodySize;
@@ -193,14 +193,13 @@ function goThrowInterval(min, max, value){
     return Math.min(Math.max(min, value), max);
 }
 
-//todo: separate into functions
 tempCanvas.addEventListener(MOUSEDOWN, event => {
     let positionX, positionY;
 
     switch (actionStatus) {
         case BORDER:
             tempContext.clearRect(mouse.x - 80, mouse.y - 50, 250, 250);
-            startDraw(event, mainContext, mainCanvas, mouse)
+            startDraw(event, mainContext, mouse, offset)
             drawStatus = true;
             break;
 
@@ -210,27 +209,32 @@ tempCanvas.addEventListener(MOUSEDOWN, event => {
                 mainCanvas.width - properties.anthillSize - properties.borderSize,
                 mouse.x
             );
+
             positionY = goThrowInterval(
                 properties.anthillSize + properties.borderSize,
                 mainCanvas.height - properties.anthillSize - properties.borderSize,
                 mouse.y
             );
+
             createAnthill(positionX, positionY);
             break;
 
         case FOOD:
             let worth = document.getElementById(NUTRITIONAL_VALUE).value;
             let radius = 10 + worth / 5;
+
             positionX = goThrowInterval(
                 radius + properties.borderSize,
                 mainCanvas.width - radius - properties.borderSize,
                 mouse.x
             );
+
             positionY = goThrowInterval(
                 radius + properties.borderSize,
                 mainCanvas.height - radius - properties.borderSize,
                 mouse.y
             );
+
             createFood(positionX, positionY, radius, worth);
             break;
     }
@@ -240,14 +244,14 @@ tempCanvas.addEventListener(MOUSEMOVE, event => {
     switch (actionStatus) {
         case BORDER:
             if (drawStatus) {
-                draw(event, mainContext, mainCanvas, mouse)
+                draw(event, mainContext, mouse, offset)
             }
             else{
                 let borderSize = document.getElementById(BORDER_SIZE).value;
                 tempContext.clearRect(mouse.x - 80, mouse.y - 50, 250, 250);
 
-                mouse.x = event.pageX - tempCanvas.offsetLeft;
-                mouse.y = event.pageY - tempCanvas.offsetTop;
+                mouse.x = event.pageX - offset.offsetLeft;
+                mouse.y = event.pageY - offset.offsetTop;
                 tempContext.fillStyle = 'rgba(128, 128, 128, 0.5)';
                 tempContext.fillRect(
                     mouse.x - 3 * borderSize / 4 - 5, mouse.y, borderSize * 2, borderSize * 2
@@ -263,15 +267,15 @@ tempCanvas.addEventListener(MOUSEMOVE, event => {
                 properties.anthillSize * 2
             );
 
-            mouse.x = event.pageX - tempCanvas.offsetLeft;
-            mouse.y = event.pageY - tempCanvas.offsetTop;
+            mouse.x = event.pageX - offset.offsetLeft;
+            mouse.y = event.pageY - offset.offsetTop;
             circleDrawing(mouse.x, mouse.y, properties.anthillSize, 'rgba(255, 40, 40, 0.5)', tempContext);
             break;
 
         case FOOD:
             tempContext.clearRect(mouse.x - 30, mouse.y - 30, 60, 60);
-            mouse.x = event.pageX - tempCanvas.offsetLeft;
-            mouse.y = event.pageY - tempCanvas.offsetTop;
+            mouse.x = event.pageX - offset.offsetLeft;
+            mouse.y = event.pageY - offset.offsetTop;
             let radius = 10 + document.getElementById(NUTRITIONAL_VALUE).value / 5;
             circleDrawing(mouse.x, mouse.y, radius, 'rgba(40, 255, 40, 0.5)', tempContext);
             break;
