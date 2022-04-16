@@ -122,16 +122,18 @@ function setNote(string) {
     document.querySelector(".training-info").appendChild(info);
 }
 
+function dataCheck(layerCount, epochCount, layerSize){
+    dataNetwork.epochCount = (epochCount <= 0) ? 20 : Math.round(epochCount);
+    dataNetwork.layerSize = (layerSize === "") ? [784, 256, 10] : JSON.parse(`[784, ${layerSize}, 10]`);
+    dataNetwork.layerCount = dataNetwork.layerSize.length;
+}
+
 function setData() {
     let layerCount = +document.querySelector(".hidden-layer-value").value;
     let epochCount = +document.querySelector(".epoch-number-value").value;
     let layerSize = document.querySelector(".neuron-number-value").value;
 
-    dataNetwork.layerCount = (layerCount === 0) ? 3 : layerCount + 2;
-    dataNetwork.epochCount = (epochCount === 0) ? 20 : epochCount;
-    dataNetwork.layerSize = (layerSize === "") ?
-        [784, 256, 10] :
-        JSON.parse(`[784, ${layerSize}, 10]`);
+    dataCheck(layerCount, epochCount, layerSize);
 }
 
 export function report(time) {

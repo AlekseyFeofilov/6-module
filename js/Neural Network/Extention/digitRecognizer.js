@@ -53,22 +53,17 @@ export class DigitRecognizer {
     }
 
     training() {
-        if (this.stopTraining) {
-            return;
-        }
-
-        if (this.epoch >= this.neuralNetworks.epochCount) {
-            completeReport(this.timeDifference());
-            return;
-        }
-
-        setTimeout(() => this.training());
+        let timerID = setTimeout(() => this.training());
 
         if (!this.data.hasExample()) {
             this.accuracy.push(this.test());
             this.epoch++;
-
             report(this.timeDifference());
+
+            if (this.epoch >= this.neuralNetworks.epochCount) {
+                completeReport(this.timeDifference());
+                clearTimeout(timerID);
+            }
 
             this.data.reload();
             return;
@@ -81,6 +76,10 @@ export class DigitRecognizer {
                 this.neuralNetworks.backPropagation(bunch[i].digit);
                 this.neuralNetworks.applyGradient(0.01 * Math.exp(-this.epoch / 40));
             }
+        }
+
+        if (this.stopTraining) {
+            clearTimeout(timerID);
         }
 
         //this.neuralNetworks.calculateGradient();
