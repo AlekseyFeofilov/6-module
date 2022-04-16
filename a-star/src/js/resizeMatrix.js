@@ -3,7 +3,7 @@ let table = document.getElementById("tab");
 let counterColumns = 2;
 let counterRows = 2;
 
-// Изменение размера таблицы на 1
+// Увеличение размера таблицы на 1
 plusSizeButton.onclick = function() {
     counterRows++;
     if(counterRows >= 132) {
@@ -47,7 +47,7 @@ plusSizeButton.onclick = function() {
     }
 }
 
-// Изменение размера таблицы на 1
+// Уменьшение размера таблицы на 1
 minusSizeButton.onclick = function() {
     if(counterColumns >= 2) {
         counterColumns--;

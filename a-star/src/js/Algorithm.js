@@ -44,6 +44,7 @@ function generateNewMatrix(adjacencyMatrix, matrix, numberOfRows, numberOfColumn
     }
 }
 
+// Функция эвристики между двумя вершинами, основанная на теореме Пифагора
 function heuristicFunction(startPoint, endPoint) {
     return Math.sqrt(Math.pow(startPoint.firstValue - endPoint.firstValue, 2) + Math.pow(startPoint.secondValue - endPoint.secondValue, 2));
 }
@@ -146,6 +147,7 @@ function printPath(path, allCells, allVisitedCells, potentialCells) {
 }
 
 startAlgorithm.onclick = function() {
+
     let numberOfRows = counterColumns;
     if(numberOfRows > 131) {
         alert("Слишком большой лабиринт, введите данные поменьше");
@@ -160,6 +162,7 @@ startAlgorithm.onclick = function() {
     for (let i = 0; i < numberOfRows; i++) {
         adjacencyMatrix[i] = new Array(numberOfRows);
     }
+
     if (generatedMaze) {
         for(let i = 0; i < numberOfRows; i++) {
             for(let j = 0; j < numberOfRows; j++) {
@@ -167,15 +170,18 @@ startAlgorithm.onclick = function() {
             }
         }
     }
+
     let startFound = false;
     let finishFound = false;
+
     let allCells = document.getElementsByClassName("cell");
+
+    // Заполняем матрицу смежности на основе данных, введенных пользователем
     for (let i = 0; i < allCells.length; i++) {
         if (allCells[i].style.backgroundColor == "rgb(255, 100, 238)") { // старт
             if (startFound) {
                 alert("Вы выбрали более одного старта");
                 return;
-                //window.location.reload();
             } else {
                 startFound = true;
                 let startX = i % numberOfColumns;
@@ -188,7 +194,6 @@ startAlgorithm.onclick = function() {
             if (finishFound) {
                 alert("Вы выбрали более одного финиша");
                 return;
-                //window.location.reload();
             }
             else {
                 finishFound = true;
@@ -208,45 +213,49 @@ startAlgorithm.onclick = function() {
     if (!startFound) {
         alert("Вы не выбрали точку старта");
         return;
-        //window.location.reload();
     }
     if (!finishFound) {
         alert("Вы не выбрали точку финиша");
         return;
-        //window.location.reload();
     }
+
     generateNewMatrix(adjacencyMatrix, matrix, numberOfRows, numberOfColumns);
-    let closedPoints = [];
-    let openedPoints = [startPoint.secondValue * numberOfColumns + startPoint.firstValue];
-    let previousPoint = new Array(numberOfRows * numberOfColumns);
+
+    let closedPoints = []; // Список вершин, которые уже просмотрены
+    let openedPoints = [startPoint.secondValue * numberOfColumns + startPoint.firstValue]; // Список вершин, которые необходимо просмотреть
+    let previousPoint = new Array(numberOfRows * numberOfColumns); // Массив, который нужен для последующего восстановления пути
     for (let i = 0; i < numberOfRows * numberOfColumns; i++) {
         previousPoint[i] = 0;
     }
 
-    let realCost = new Array(numberOfRows * numberOfColumns);
-    let heuristicCost = new Array(numberOfRows * numberOfColumns);
+    let realCost = new Array(numberOfRows * numberOfColumns); // Хранит информацию: сколько энергии понадобилось, чтобы добраться до какого-то узла
+    let heuristicCost = new Array(numberOfRows * numberOfColumns); // Хранит информацию: предсказание: сколько энергии понадобится, чтобы добраться до конца, используя какой-то узел
+
     realCost[startPoint.secondValue * numberOfColumns + startPoint.firstValue] = 0;
     heuristicCost[startPoint.secondValue * numberOfColumns + startPoint.firstValue] = realCost[startPoint.secondValue * numberOfColumns + startPoint.firstValue] + heuristicFunction(startPoint, endPoint);
-    let potentialCells = [];
-    let flag = "Failure";
+    let potentialCells = []; // Тут будут храниться клетки, которые рассматриваются на каждой итерации алгоритма (для визуализации)
+    let pathIsFound = "Failure"; // Изначально предполагаем, что путь не найден
     let allVisitedCells = [];
+
     while (openedPoints.length != 0) {
+
         let current = minHeuristicCost(openedPoints, heuristicCost);
         potentialCells.push(openedPoints);
         allVisitedCells.push(current);
-        //allCells[current].style.backgroundColor = "black";
-        if (current == endPoint.secondValue * numberOfColumns + endPoint.firstValue) {
-            flag = "Success";
+        if (current == endPoint.secondValue * numberOfColumns + endPoint.firstValue) { // Условие того, что путь найден
+            pathIsFound = "Success";
             break;
         }
+        
         openedPoints = removeFromOpen(current, openedPoints);
-        closedPoints.push(current);
+        closedPoints.push(current); // Он уже проверен, поэтому добавляем в проверенные вершины
+        
         let unclosedNeighbours = findAllUnclosedNeighbours(current, matrix, numberOfRows, numberOfColumns, closedPoints);
         for (let i = 0; i < unclosedNeighbours.length; i++) {
-            let temp_G = realCost[current] + 1;
-            if (!isNeighbourInOpen(unclosedNeighbours[i], openedPoints) || (temp_G < realCost[unclosedNeighbours[i]])) {
+            let tempRealCost = realCost[current] + 1; // Дистанция от current до нашего узла + дистанция от нашего узла до соседа
+            if (!isNeighbourInOpen(unclosedNeighbours[i], openedPoints) || (tempRealCost < realCost[unclosedNeighbours[i]])) { // Условие того, что в соседа можно попасть из нашего узла по кратчайшему маршруту
                 previousPoint[unclosedNeighbours[i]] = current;
-                realCost[unclosedNeighbours[i]] = temp_G;
+                realCost[unclosedNeighbours[i]] = tempRealCost;
                 let currentNeighbour = new Cell(unclosedNeighbours[i] % numberOfColumns, Math.floor(unclosedNeighbours[i] / numberOfColumns))
                 heuristicCost[unclosedNeighbours[i]] = realCost[unclosedNeighbours[i]] + heuristicFunction(currentNeighbour, endPoint);
             }
@@ -255,7 +264,7 @@ startAlgorithm.onclick = function() {
             }
         }
     }
-    if (flag == "Success") {
+    if (pathIsFound == "Success") {
         buildPath(startPoint, endPoint, previousPoint, numberOfRows, numberOfColumns);
         printPath(path, allCells, allVisitedCells, potentialCells);
     } else {
